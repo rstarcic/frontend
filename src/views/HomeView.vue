@@ -17,61 +17,66 @@
         </v-row>
       </div>
     </v-parallax>
-    <div class="align-center">
+    <div class="d-flex justify-center align-center">
       <v-row> <h1>Looking for a gig to complete?</h1></v-row>
-      <v-row>
-        <v-col cols="12" md="2" v-for="feature in features" :key="feature">
-          <v-card max-width="400" žžž>
-            <v-card-item>
-              <v-card-title>{{ feature.title }}</v-card-title>
-            </v-card-item>
-            <v-card-text>
-              {{ feature.text }}
-            </v-card-text>
-          </v-card>
-        </v-col>
+      <v-row> </v-row>
+    </div>
+    <div class="d-flex justify-center align-center">
+      <v-row class="align-center">
+        <h1 class="title-text">
+          Newest <span class="job-color">jobs</span> for you
+        </h1>
+        <v-row justify="center" class="job-card-row">
+          <v-col
+            v-for="(job, index) in jobAds"
+            :key="index"
+            cols="12"
+            md="3"
+            class="job-card"
+          >
+            <v-card class="mx-auto" max-width="344" :color="color" :job="job">
+              <v-card-item>
+                <div>
+                  <div class="text-overline mb-1 custom-text-color">
+                    {{ job.title }}
+                  </div>
+                  <v-list class="list">
+                    <v-list-item
+                      v-for="(detail, detailIndex) in job.details"
+                      :key="detailIndex"
+                    >
+                      <v-list-item-icon>
+                        <v-icon class="custom-text-color">{{
+                          detail.icon
+                        }}</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content class="custom-text-color">
+                        {{ detail.text }}
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </div>
+              </v-card-item>
+              <v-card-actions>
+                <v-btn class="apply-btn" variant="flat"> Apply </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-row>
     </div>
-    <v-row class="align-center">
-      <h1 class="title-text">
-        Newest <span class="job-color">jobs</span> for you
-      </h1>
-      <v-row justify="center" class="job-card-row">
-        <v-col
-          v-for="(job, index) in jobAds"
-          :key="index"
-          cols="12"
-          md="3"
-          class="job-card"
+    <div class="d-flex justify-center align-center rectangle-div">
+      <div class="rectangle">
+        <h1 class="heading-class">Your Next Gig is a Click Away</h1>
+        <p>
+          Don't miss out on your dream gig. Join Jobify today and take the first
+          step towards a more flexible, fulfilling, and rewarding work life.
+        </p>
+        <v-btn elevation="1" tile outlined class="signup-button" to="/signup"
+          >Join Jobify</v-btn
         >
-          <v-card class="mx-auto" max-width="344" :color="color" :job="job">
-            <v-card-item>
-              <div>
-                <div class="text-overline mb-1">
-                  {{ job.title }}
-                </div>
-                <v-list class="list">
-                  <v-list-item
-                    v-for="(detail, detailIndex) in job.details"
-                    :key="detailIndex"
-                  >
-                    <v-list-item-icon>
-                      <v-icon class="icon-color">{{ detail.icon }}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                      {{ detail.text }}
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </div>
-            </v-card-item>
-            <v-card-actions>
-              <v-btn variant="flat"> Apply </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -79,6 +84,7 @@
 export default {
   name: "HomeView",
   data: () => ({
+    activeStep: 1,
     features: [
       {
         title: "Post a Gig",
@@ -98,6 +104,7 @@ export default {
         text: "Jobify allows you to generate contract documents, making it easier to formalize your working agreements.",
       },
     ],
+    featureTitles: ["Step 1", "Step 2", "Step 3"],
     jobAds: [
       {
         id: 1,
@@ -182,6 +189,11 @@ export default {
       },
     ],
   }),
+  methods: {
+    isActiveStep(step) {
+      return step === this.activeStep;
+    },
+  },
 };
 </script>
 
@@ -263,6 +275,7 @@ export default {
     #a582f7 50%,
     rgba(142, 104, 178, 0.9) 100%
   ) !important;
+  margin-left: 400px;
 }
 .gigBtn {
   background: linear-gradient(
@@ -273,6 +286,11 @@ export default {
   ) !important;
 }
 
+.feature-card {
+  height: 100%;
+  width: max-content;
+  margin-bottom: 20px;
+}
 .job-card-row {
   width: 75%;
   margin-left: 300px !important;
@@ -290,12 +308,31 @@ export default {
 .mx-auto2 {
   background-color: #643f7d !important;
 }
-.icon-color,
+
 .title-text {
   color: #000000;
 }
 .job-color {
   color: #643f7d;
 }
-</style>
+.custom-text-color {
+  color: #f7f8f9;
+}
 
+.rectangle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 250px;
+  background-color: #ffffff;
+  padding: 20px 100px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 50px;
+}
+
+.rectangle-div {
+  margin-top: 250px;
+}
+</style>

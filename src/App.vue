@@ -7,7 +7,7 @@
             alt="Jobify logo"
             contain
             :src="require('@/assets/blackJobifyLogo.png')"
-            class="logo"
+            class="logo-bar"
           />
         </router-link>
       </div>
@@ -45,17 +45,19 @@
     <v-main>
       <router-view />
     </v-main>
-    <v-footer color="#8e68b2" class="footer-bg">
+    <v-footer color="#8e68b2" class="d-flex">
       <v-container>
-        <v-row align="center">
-          <v-col class="text-center">
+        <v-row no-gutters>
+          <v-col cols="5" align="center" class="logo-col">
             <v-img
               alt="Jobify logo"
               contain
               :src="require('@/assets/purpleJobifyLogo.png')"
-              class="logo"
-            ></v-img>
-            <h5>Find Us On Social Media:</h5>
+              class="logo-footer"
+            />
+          </v-col>
+          <v-col class="text-center icons-col">
+            <h4>Find Us On Social Media:</h4>
             <div>
               <v-btn
                 v-for="icon in icons"
@@ -97,8 +99,10 @@ export default {
   background-color: #8e68b2 !important;
   padding: auto;
   margin: 0px;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
-.logo {
+.logo-bar {
   width: 200px;
   height: max-content;
   margin-left: 200px;
@@ -110,7 +114,6 @@ export default {
   border: 3px solid;
   border-image: linear-gradient(100deg, #ce9ffc, #a582f7, #8e68b2) 1;
   border-radius: 0%;
-  margin-right: 20px;
 }
 
 .v-btn.signupBtn {
@@ -118,16 +121,23 @@ export default {
   background: linear-gradient(180deg, #ce9ffc 0%, #a582f7 50%, #8e68b2 100%);
   border-radius: 0px;
   height: 35px !important;
+  margin-right: 150px !important;
+}
+
+.v-btn.loginBtn,
+.v-btn.signupBtn {
+  margin-right: 10px;
 }
 
 .bottomNavbar {
-  padding-left: 600px;
+  padding-left: 40%;
   height: 50px;
 }
-.logo {
-  width: 200px;
+.logo-footer {
+  width: 150px;
   height: max-content;
-  margin-left: 200px;
+  margin-left: 0px;
+  margin-top: 30px;
 }
 
 .footer-bg {
