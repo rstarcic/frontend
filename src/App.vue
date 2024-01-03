@@ -12,10 +12,17 @@
         </router-link>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="loginBtn" text to="/login" color="#FFFFFF">Login</v-btn>
+      <v-btn class="loginBtn" variant="plain" to="/login" color="#FFFFFF"
+        >Login</v-btn
+      >
       <v-menu>
         <template v-slot:activator="{ props }">
-          <v-btn class="signupBtn" v-bind="props" color="#FFFFFF">
+          <v-btn
+            class="signupBtn"
+            variant="plain"
+            v-bind="props"
+            color="#FFFFFF"
+          >
             Sign Up
           </v-btn>
         </template>

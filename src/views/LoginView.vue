@@ -25,19 +25,11 @@
               dense
               label="Password"
               placeholder="Enter your password"
-              hint="At least 8 characters"
+              :append-icon="IsPasswordShowed ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="IsPasswordShowed = !IsPasswordShowed"
               :type="IsPasswordShowed ? 'text' : 'password'"
-            >
-              <template v-slot:append>
-                <v-btn icon @click="IsIconPasswordToggled()">
-                  <v-icon>{{
-                    IsPasswordShowed ? "mdi-eye" : "mdi-eye-off"
-                  }}</v-icon>
-                </v-btn>
-              </template>
-            </v-text-field>
+            ></v-text-field>
             <v-btn
-              tile
               class="sign-in-btn rounded-lg"
               text
               color="#FFFFFF"
@@ -119,9 +111,6 @@ export default {
     resetEmail: "",
   }),
   methods: {
-    IsIconPasswordToggled() {
-      this.IsPasswordShowed = !this.IsPasswordShowed;
-    },
     openPasswordResetDialog() {
       this.isPasswordResetDialogOpen = true;
     },
