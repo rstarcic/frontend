@@ -29,19 +29,28 @@
               @click:append="IsPasswordShowed = !IsPasswordShowed"
               :type="IsPasswordShowed ? 'text' : 'password'"
             ></v-text-field>
-            <v-btn
-              class="sign-in-btn rounded-lg"
-              text
-              color="#FFFFFF"
-              @click="LoggedIn"
-              >SIGN IN</v-btn
-            >
+            <div class="forgot-password-class">
+              <v-btn
+                class="forgot-password-btn"
+                variant="plain"
+                color="#f7f8f9"
+                @click="openPasswordResetDialog"
+                >Forgot password?</v-btn
+              >
+            </div>
+            <div class="sign-in-class">
+              <v-btn
+                class="sign-in-btn"
+                variant="plain"
+                elevation="4"
+                color="#f7f8f9"
+                type="submit"
+                @click.prevent="signIn"
+              >
+                SIGN IN</v-btn
+              >
+            </div>
           </v-form>
-          <div class="password-class">
-            <v-btn text x-small color="blue" @click="openPasswordResetDialog"
-              >Forgot password?</v-btn
-            >
-          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -73,10 +82,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            class="rounded-lg reset-email-btn"
-            text
-            @click="PasswordResetEmail"
+          <v-btn class="reset-email-btn" text @click="sendPasswordResetEmail"
             >Send Reset Email</v-btn
           >
           <v-btn color="red" text @click="closePasswordResetDialog"
@@ -87,11 +93,12 @@
     </v-dialog>
   </v-container>
 </template>
-  
-  <style>
+
+<style>
 .login-card {
   width: 400px;
   padding: 16px;
+  background-color: #642b73 !important;
 }
 
 .text-field {
@@ -99,9 +106,22 @@
   height: 20px !important;
   padding: 50px;
 }
+
+.login-text,
+.login-subtext {
+  color: #f7f8f9;
+}
+.forgot-password-class,
+.sign-in-class {
+  margin: 20px 0px 25px 0px;
+}
+.forgot-password-btn {
+  font-size: 10px !important;
+}
 </style>
 
 <script>
+import axios from "axios";
 export default {
   data: () => ({
     email: "",
@@ -116,6 +136,28 @@ export default {
     },
     closePasswordResetDialog() {
       this.isPasswordResetDialogOpen = false;
+    },
+    signIn() {
+      const userData = {
+        email: this.email,
+        password: this.password,
+      };
+      axios
+        .post("http://localhost:3000/api/auth/login", userData)
+        .then((response) => {
+          console.log("Server response:", response);
+          const userRole = response.data.user.role;
+          if (userRole === "job seeker") {
+            this.$router.push("/job-seeker/profile");
+          } else if (userRole === "employer") {
+            this.$router.push("/employer/profile");
+          } else {
+            console.error("Unknown role:", userRole);
+          }
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
     },
   },
 };

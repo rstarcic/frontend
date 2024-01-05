@@ -4,7 +4,7 @@
       <v-col align="center" justify="center" cols="6">
         <v-card outlined class="card-design">
           <v-card-title>Sign up</v-card-title>
-          <v-card-subtitle>Dear employer, please sign up</v-card-subtitle>
+          <v-card-subtitle>Dear job seeker, please sign up</v-card-subtitle>
           <v-card-text></v-card-text>
           <v-form class="form-design">
             <v-row class="subtitle-color">Personal Information</v-row>
@@ -205,8 +205,8 @@
     </v-row>
   </v-container>
 </template>
-
-<script>
+  
+  <script>
 import axios from "axios";
 import { countries, cities } from "../utils/location.js";
 export default {
@@ -336,7 +336,7 @@ export default {
         postalCode: this.postalCode,
       };
       axios
-        .post("http://localhost:3000/api/auth/signup/employer", userData)
+        .post("http://localhost:3000/api/auth/signup/job-seeker", userData)
         .then((response) => {
           console.log("Server response:", response);
         })
@@ -380,8 +380,8 @@ export default {
   },
 };
 </script>
-
-<style scoped>
+  
+  <style scoped>
 .v-card-title,
 .v-card-subtitle {
   color: #f7f8f9;
@@ -411,3 +411,4 @@ export default {
   margin-left: 20px;
 }
 </style>
+  
