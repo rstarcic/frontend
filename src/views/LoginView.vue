@@ -29,6 +29,15 @@
               @click:append="IsPasswordShowed = !IsPasswordShowed"
               :type="IsPasswordShowed ? 'text' : 'password'"
             ></v-text-field>
+            <v-alert
+              v-if="errorMessage"
+              color="error"
+              icon="$error"
+              title="Login failed"
+              class="alert-class"
+              >{{ errorMessage }}</v-alert
+            >
+
             <div class="forgot-password-class">
               <v-btn
                 class="forgot-password-btn"
@@ -94,6 +103,56 @@
   </v-container>
 </template>
 
+<script>
+export default {
+  data: () => ({
+    email: "",
+    password: "",
+    IsPasswordShowed: false,
+    isPasswordResetDialogOpen: false,
+    resetEmail: "",
+    errorMessage: "",
+  }),
+  methods: {
+    openPasswordResetDialog() {
+      this.isPasswordResetDialogOpen = true;
+    },
+    closePasswordResetDialog() {
+      this.isPasswordResetDialogOpen = false;
+    },
+    signIn() {
+      const userData = {
+        email: this.email,
+        password: this.password,
+      };
+      this.$apiClient
+        .post("http://localhost:3000/api/auth/login", userData)
+        .then((response) => {
+          console.log("Server response:", response);
+          localStorage.setItem("token", response.data.token);
+          sessionStorage.setItem("user", JSON.stringify(response.data.user));
+          const userRole = response.data.user.role;
+          if (userRole === "job seeker") {
+            this.$router.push("/job-seeker/profile");
+          } else if (userRole === "employer") {
+            this.$router.push("/employer/profile");
+          } else {
+            console.error("Unknown role:", userRole);
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            this.errorMessage = "Incorrect email or password.";
+          } else {
+            console.error("There was an error!", error);
+            this.errorMessage = "An error occurred. Please try again later.";
+          }
+        });
+    },
+  },
+};
+</script>
+
 <style>
 .login-card {
   width: 400px;
@@ -118,47 +177,9 @@
 .forgot-password-btn {
   font-size: 10px !important;
 }
-</style>
 
-<script>
-import axios from "axios";
-export default {
-  data: () => ({
-    email: "",
-    password: "",
-    IsPasswordShowed: false,
-    isPasswordResetDialogOpen: false,
-    resetEmail: "",
-  }),
-  methods: {
-    openPasswordResetDialog() {
-      this.isPasswordResetDialogOpen = true;
-    },
-    closePasswordResetDialog() {
-      this.isPasswordResetDialogOpen = false;
-    },
-    signIn() {
-      const userData = {
-        email: this.email,
-        password: this.password,
-      };
-      axios
-        .post("http://localhost:3000/api/auth/login", userData)
-        .then((response) => {
-          console.log("Server response:", response);
-          const userRole = response.data.user.role;
-          if (userRole === "job seeker") {
-            this.$router.push("/job-seeker/profile");
-          } else if (userRole === "employer") {
-            this.$router.push("/employer/profile");
-          } else {
-            console.error("Unknown role:", userRole);
-          }
-        })
-        .catch((error) => {
-          console.error("There was an error!", error);
-        });
-    },
-  },
-};
-</script>
+.alert-class {
+  margin-top: 50px;
+  width: 250px;
+}
+</style>

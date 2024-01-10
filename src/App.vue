@@ -1,6 +1,12 @@
 <template>
   <v-app class="main">
-    <v-app-bar app color="#050301" dense class="topNavbar">
+    <v-app-bar
+      app
+      color="#050301"
+      dense
+      class="topNavbar"
+      v-if="!isUnauthorizedRoute"
+    >
       <div class="d-flex align-center">
         <router-link to="/">
           <v-img
@@ -12,7 +18,12 @@
         </router-link>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="loginBtn" variant="plain" to="/login" color="#FFFFFF"
+      <v-btn
+        class="loginBtn"
+        variant="plain"
+        to="/login"
+        color="#FFFFFF"
+        v-if="!currentUser"
         >Login</v-btn
       >
       <v-menu>
@@ -22,6 +33,7 @@
             variant="plain"
             v-bind="props"
             color="#FFFFFF"
+            v-if="!currentUser"
           >
             Sign Up
           </v-btn>
@@ -37,8 +49,22 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      <v-btn
+        class="logoutBtn"
+        variant="plain"
+        to="/"
+        color="#FFFFFF"
+        @click="logout"
+        v-if="currentUser"
+        >Logout</v-btn
+      >
     </v-app-bar>
-    <v-app-bar app class="bottomNavbar" color="#12151B">
+    <v-app-bar
+      app
+      class="bottomNavbar"
+      color="#12151B"
+      v-if="!isUnauthorizedRoute"
+    >
       <v-btn to="/about" color="#FFFFFF" variant="plain" size="small"
         >About</v-btn
       >
@@ -48,11 +74,21 @@
       <v-btn text to="/hire" color="#FFFFFF" variant="plain" size="small"
         >Hire job seeker</v-btn
       >
+      <v-btn
+        v-if="currentUser"
+        text
+        color="#FFFFFF"
+        variant="plain"
+        size="small"
+        :to="getProfileRoute"
+      >
+        Profile
+      </v-btn>
     </v-app-bar>
     <v-main>
       <router-view />
     </v-main>
-    <v-footer color="#8e68b2" class="d-flex">
+    <v-footer color="#8e68b2" class="d-flex" v-if="!isUnauthorizedRoute">
       <v-container>
         <v-row no-gutters>
           <v-col cols="5" align="center" class="logo-col">
@@ -91,6 +127,7 @@
 export default {
   name: "App",
   data: () => ({
+    currentUser: null,
     items: [{ title: "Job seeker" }, { title: "Employer" }],
     icons: [
       { name: "mdi-facebook", color: "#3b5998" },
@@ -99,6 +136,40 @@ export default {
       { name: "mdi-instagram", color: "#E1306C" },
     ],
   }),
+  methods: {
+    loadCurrentUser() {
+      const currentUserData = sessionStorage.getItem("user");
+      if (currentUserData) {
+        this.currentUser = JSON.parse(currentUserData);
+        console.log("Current user loaded:", this.currentUser);
+      }
+    },
+    getProfileRoute() {
+      if (this.currentUser) {
+        if (this.currentUser.role === "employer") {
+          return "/employer/profile";
+        } else if (this.currentUser.role === "job seeker") {
+          return "/job-seeker/profile";
+        }
+      }
+      return "/login";
+    },
+    logout() {
+      this.currentUser = null;
+      sessionStorage.removeItem("user");
+      this.$router.push("/");
+    },
+  },
+  computed: {
+    isUnauthorizedRoute() {
+      return this.$route.path === "/unauthorized";
+    },
+  },
+  watch: {
+    $route: function () {
+      this.loadCurrentUser();
+    },
+  },
 };
 </script>
 <style>

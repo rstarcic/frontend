@@ -207,7 +207,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { countries, cities } from "../utils/location.js";
 export default {
   name: "RegistrationView",
@@ -332,13 +331,16 @@ export default {
         phoneNumber: this.phoneNumber,
         country: this.country,
         city: this.city,
-        addEventListener: this.address,
+        address: this.address,
         postalCode: this.postalCode,
       };
-      axios
+      this.$apiClient
         .post("http://localhost:3000/api/auth/signup/employer", userData)
         .then((response) => {
           console.log("Server response:", response);
+          localStorage.setItem("token", response.data.token);
+          sessionStorage.setItem("user", JSON.stringify(response.data.user));
+          this.$router.push("/employer/profile");
         })
         .catch((error) => {
           console.error("There was an error!", error);
