@@ -12,12 +12,12 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(config => {
     const token = localStorage.getItem("token");
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.authorization = `Bearer ${token}`;
+        console.log('Interceptor Header:', config.headers.authorization);
     }
     return config;
-}, error => {
-    return Promise.reject(error);
 });
+
 
 const app = createApp(App);
 

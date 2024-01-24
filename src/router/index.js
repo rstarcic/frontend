@@ -5,7 +5,9 @@ import EmployerRegistrationView from "../views/EmployerRegistrationView.vue";
 import JobSeekerRegistrationView from "../views/JobSeekerRegistrationView.vue";
 import JobSeekerProfileView from "../views/JobSeekerProfileView.vue";
 import EmployerProfileView from "../views/EmployerProfileView.vue";
+import JobView from "../views/JobView.vue";
 import UnauthorizedView from "../views/UnauthorizedView.vue";
+
 const routes = [
   {
     path: "/",
@@ -21,13 +23,11 @@ const routes = [
     path: "/signup/employer",
     name: "SignupEmployer",
     component: EmployerRegistrationView,
-    meta: { requiresRole: 'employer' }
   },
   {
     path: "/signup/job-seeker",
     name: "SignupJobSeeker",
     component: JobSeekerRegistrationView,
-    meta: { requiresRole: 'job seeker' }
   },
   {
     path: "/job-seeker/profile",
@@ -40,6 +40,11 @@ const routes = [
     name: "ProfileEmployer",
     component: EmployerProfileView,
     meta: { requiresRole: 'employer' }
+  },
+  {
+    path: "/jobs",
+    name: "Jobs",
+    component: JobView
   },
   {
     path: "/unauthorized",

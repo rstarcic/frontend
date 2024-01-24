@@ -84,6 +84,9 @@
       >
         Profile
       </v-btn>
+      <v-btn icon>
+        <v-icon size="large">mdi-chat</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-main>
       <router-view />

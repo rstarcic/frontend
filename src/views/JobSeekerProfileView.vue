@@ -14,121 +14,54 @@
           </v-tabs>
           <v-window v-model="tab">
             <v-window-item :value="'update'">
-              <v-container>
-                <v-form>
-                  <v-row no-gutters>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="firstName"
-                        label="First name"
-                        prepend-icon="mdi-account"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="lastName"
-                        label="Last name"
-                        :placeholder="lastName"
-                        prepend-icon="mdi-account"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="gender"
-                        label="Gender"
-                        :placeholder="gender"
-                        prepend-icon="mdi-human"
-                      ></v-text-field
-                    ></v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="dateOfBirth"
-                        label="Date of birth"
-                        :placeholder="dateOfBirth"
-                        prepend-icon="mdi-calendar"
-                      ></v-text-field
-                    ></v-col>
-                  </v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="phoneNumber"
-                        label="Phone number"
-                        :placeholder="phoneNumber"
-                        prepend-icon="mdi-phone"
-                      ></v-text-field
-                    ></v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="country"
-                        label="Country"
-                        :placeholder="country"
-                        prepend-icon="mdi-earth"
-                      ></v-text-field></v-col
-                  ></v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="city"
-                        label="City"
-                        :placeholder="city"
-                        prepend-icon="mdi-city"
-                      ></v-text-field></v-col
-                    ><v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="address"
-                        label="Address"
-                        :placeholder="address"
-                        prepend-icon="mdi-home-map-marker"
-                      ></v-text-field
-                    ></v-col>
-                  </v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="postalCode"
-                        label="Postal code"
-                        :placeholder="postalCode"
-                        prepend-icon="mdi-mailbox"
-                      ></v-text-field
-                    ></v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="documentType"
-                        label="Document type"
-                        :placeholder="documentType"
-                        prepend-icon="mdi-file-document"
-                      ></v-text-field
-                    ></v-col>
-                  </v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6">
-                      <v-text-field
-                        class="text-field-design"
-                        v-model="documentNumber"
-                        label="Document number"
-                        :placeholder="documentNumber"
-                        prepend-icon="mdi-numeric"
-                      ></v-text-field> </v-col
-                  ></v-row>
-                  <v-btn @click="saveChanges">Save changes</v-btn>
-                </v-form>
-              </v-container>
+              <div>
+                <UpdateProfileComponent
+                  @updateUserData="handleUserData"
+                ></UpdateProfileComponent>
+              </div>
             </v-window-item>
 
-            <v-window-item :value="'add'"> </v-window-item>
+            <v-window-item :value="'add'"
+              ><div>
+                <v-row>
+                  <v-col cols="12">
+                    <h2>About Me</h2>
+                    <v-textarea
+                      class="text-field-design"
+                      label="Summary"
+                      variant="underlined"
+                      maxlength="500"
+                    ></v-textarea>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <h2>Education</h2>
+                    <EducationComponent></EducationComponent>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <h2>Work Experience</h2>
+                    <WorkExperienceComponent></WorkExperienceComponent>
+                  </v-col>
+                  <v-col cols="12">
+                    <h2>Languages</h2>
+                    <LanguageComponent></LanguageComponent>
+                  </v-col>
+                  <v-col cols="12">
+                    <h2>Hobbies & Interests</h2>
+                    <HobbiesAndInterestsComponent></HobbiesAndInterestsComponent>
+                  </v-col>
+                  <v-col cols="12">
+                    <h2>Skills</h2>
+                    <SkillsComponent></SkillsComponent>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-btn color="primary">Save Profile</v-btn>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-window-item>
 
             <v-window-item :value="'settings'"> </v-window-item>
           </v-window>
@@ -139,32 +72,47 @@
 </template>
 
 <script>
+import UpdateProfileComponent from "@/components/UpdateProfileComponent.vue";
+import EducationComponent from "@/components/EducationComponent.vue";
+import WorkExperienceComponent from "@/components/WorkExperienceComponent.vue";
+import LanguageComponent from "@/components/LanguageComponent.vue";
+import HobbiesAndInterestsComponent from "@/components/HobbiesAndInterestsComponent.vue";
+import SkillsComponent from "@/components/SkillsComponent.vue";
+
 export default {
   data: () => ({
-    firstName: "",
-    lastName: "",
     tab: "update",
   }),
+  components: {
+    UpdateProfileComponent,
+    EducationComponent,
+    WorkExperienceComponent,
+    LanguageComponent,
+    HobbiesAndInterestsComponent,
+    SkillsComponent,
+  },
   methods: {
-    loadUserData() {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      if (user) {
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.gender = user.gender;
-        this.dateOfBirth = user.dateOfBirth;
-        this.phoneNumber = user.phoneNumber;
-        this.country = user.country;
-        this.city = user.city;
-        this.address = user.address;
-        this.postalCode = user.postalCode;
-        this.documentType = user.documentType;
-        this.documentNumber = user.documentNumber;
+    handleUserData(userData) {
+      const userSessionData = sessionStorage.getItem("user");
+      if (userSessionData) {
+        const user = JSON.parse(userSessionData);
+        userData._id = user._id;
+        const role = "job seeker";
+        const updatedUserData = { ...userData, role };
+        console.log("userData being sent:", updatedUserData);
+        this.$apiClient
+          .post("http://localhost:3000/api/job-seeker/profile", updatedUserData)
+          .then((response) => {
+            console.log("Server response:", response);
+            sessionStorage.setItem("user", JSON.stringify(response.data.user));
+          })
+          .catch((error) => {
+            console.error("There was an error!", error);
+          });
+      } else {
+        console.error("User session data not found");
       }
     },
-  },
-  created() {
-    this.loadUserData();
   },
 };
 </script>
@@ -173,10 +121,9 @@ export default {
 .card-design {
   width: 800px;
   height: fit-content;
-  padding-right: 20px;
 }
 .text-field-design {
-  font-size: 12px;
+  font-size: 16px;
   width: 300px;
   height: 48px;
   margin-bottom: 50px;

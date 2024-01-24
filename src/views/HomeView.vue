@@ -34,33 +34,7 @@
             md="3"
             class="job-card"
           >
-            <v-card class="mx-auto" max-width="344" :color="color" :job="job">
-              <v-card-item>
-                <div>
-                  <div class="text-overline mb-1 custom-text-color">
-                    {{ job.title }}
-                  </div>
-                  <v-list class="list">
-                    <v-list-item
-                      v-for="(detail, detailIndex) in job.details"
-                      :key="detailIndex"
-                    >
-                      <v-list-item-icon>
-                        <v-icon class="custom-text-color">{{
-                          detail.icon
-                        }}</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content class="custom-text-color">
-                        {{ detail.text }}
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                </div>
-              </v-card-item>
-              <v-card-actions>
-                <v-btn class="apply-btn" variant="flat"> Apply </v-btn>
-              </v-card-actions>
-            </v-card>
+            <JobCardComponent :job="job" :color="color"></JobCardComponent>
           </v-col>
         </v-row>
       </v-row>
@@ -81,6 +55,7 @@
 </template>
 
 <script>
+import JobCardComponent from "../components/JobCardComponent.vue";
 export default {
   name: "HomeView",
   data: () => ({
@@ -188,7 +163,11 @@ export default {
         ],
       },
     ],
+    color: "#642b73",
   }),
+  components: {
+    JobCardComponent,
+  },
   methods: {
     isActiveStep(step) {
       return step === this.activeStep;
