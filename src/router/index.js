@@ -7,7 +7,9 @@ import JobSeekerProfileView from "../views/JobSeekerProfileView.vue";
 import EmployerProfileView from "../views/EmployerProfileView.vue";
 import JobSeekerJobsView from "../views/JobSeekerJobsView.vue";
 import SeekerJobDetailsView from "../views/SeekerJobDetailsView.vue";
-import EmployerJobsView from "../views/EmployerJobsView.vue";
+import EmployerCreateJobsView from "../views/EmployerCreateJobsView.vue";
+import EmployerJobListView from "../views/EmployerJobListView.vue";
+import EmployerJobDetailsView from "../views/EmployerJobDetailsView.vue"
 import UnauthorizedView from "../views/UnauthorizedView.vue";
 
 const routes = [
@@ -35,36 +37,47 @@ const routes = [
     path: "/job-seeker/profile",
     name: "ProfileJobSeeker",
     component: JobSeekerProfileView,
-    meta: { requiresRole: 'job seeker' }
+    meta: { requiresRole: "job seeker" },
   },
   {
     path: "/employer/profile",
     name: "ProfileEmployer",
     component: EmployerProfileView,
-    meta: { requiresRole: 'employer' }
+    meta: { requiresRole: "employer" },
   },
   {
     path: "/job-seeker/jobs",
-    name: 'JobSeekerJobs',
+    name: "JobSeekerJobs",
     component: JobSeekerJobsView,
-    meta: { requiresRole: 'job seeker' }
+    meta: { requiresRole: "job seeker" },
   },
   {
-    path: '/job-seeker/jobs/:id',
-    name: 'JobDetails',
+    path: "/job-seeker/jobs/:id",
+    name: "JobDetails",
     component: SeekerJobDetailsView,
-    props: true
+    props: true,
+  },
+  {
+    path: "/employer/jobs/create",
+    name: "EmployerJobs",
+    component: EmployerCreateJobsView,
+    meta: { requiresRole: "employer" },
   },
   {
     path: "/employer/jobs",
-    name: 'EmployerJobs',
-    component: EmployerJobsView,
-    meta: { requiresRole: 'employer' }
+    component: EmployerJobListView,
+    meta: { requiresRole: "employer" },
+  },
+  {
+    path: "/employer/jobs/:id",
+    name: "EmployerJobDetailsView",
+    component: EmployerJobDetailsView,
+    props: true,
   },
   {
     path: "/unauthorized",
     name: "Unauthorized",
-    component: UnauthorizedView
+    component: UnauthorizedView,
   },
 ];
 
@@ -76,17 +89,15 @@ function hasRole(role) {
 }
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresRole)) {
+  if (to.matched.some((record) => record.meta.requiresRole)) {
     const role = to.meta.requiresRole;
     if (!hasRole(role)) {
-      next({path: '/unauthorized'})
-    }
-    else {
+      next({ path: "/unauthorized" });
+    } else {
       next();
     }
-  }
-  else {
+  } else {
     next();
   }
-})
+});
 export default router;

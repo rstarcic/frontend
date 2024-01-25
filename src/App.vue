@@ -79,12 +79,21 @@
       >
       <v-btn
         text
-        to="/employer/jobs"
+        to="/employer/jobs/create"
         color="#FFFFFF"
         variant="plain"
         size="small"
         v-if="currentUser && currentUser.role === 'employer'"
         >Post Jobs</v-btn
+      >
+      <v-btn
+        text
+        to="/employer/jobs"
+        color="#FFFFFF"
+        variant="plain"
+        size="small"
+        v-if="currentUser && currentUser.role === 'employer'"
+        >My Jobs</v-btn
       >
       <v-btn
         v-if="currentUser"
