@@ -12,7 +12,9 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="white" text variant="plain">Apply</v-btn>
+      <v-btn color="white" text variant="plain" @click="showJobDetails(job.id)"
+        >Show details</v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
@@ -27,6 +29,11 @@ export default {
     iconColor: {
       type: String,
       default: "white",
+    },
+  },
+  methods: {
+    showJobDetails(jobId) {
+      this.$router.push({ name: "JobDetails", params: { id: jobId } });
     },
   },
 };

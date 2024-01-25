@@ -68,11 +68,23 @@
       <v-btn to="/about" color="#FFFFFF" variant="plain" size="small"
         >About</v-btn
       >
-      <v-btn text to="/jobs" color="#FFFFFF" variant="plain" size="small"
+      <v-btn
+        text
+        to="/job-seeker/jobs"
+        color="#FFFFFF"
+        variant="plain"
+        size="small"
+        v-if="currentUser && currentUser.role === 'job seeker'"
         >Find Jobs</v-btn
       >
-      <v-btn text to="/hire" color="#FFFFFF" variant="plain" size="small"
-        >Hire job seeker</v-btn
+      <v-btn
+        text
+        to="/employer/jobs"
+        color="#FFFFFF"
+        variant="plain"
+        size="small"
+        v-if="currentUser && currentUser.role === 'employer'"
+        >Post Jobs</v-btn
       >
       <v-btn
         v-if="currentUser"
@@ -84,7 +96,7 @@
       >
         Profile
       </v-btn>
-      <v-btn icon>
+      <v-btn icon v-if="currentUser" class="chat-icon-btn">
         <v-icon size="large">mdi-chat</v-icon>
       </v-btn>
     </v-app-bar>
@@ -236,6 +248,15 @@ export default {
   align-items: center;
   justify-content: center;
   margin-right: 5px;
+}
+.chat-icon-btn {
+  margin-left: 43%;
+}
+
+@media (max-width: 600px) {
+  .chat-icon-btn {
+    margin-left: 50px; /* Less margin on smaller screens */
+  }
 }
 </style>
 
