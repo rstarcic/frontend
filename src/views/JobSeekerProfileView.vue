@@ -63,7 +63,12 @@
               </div>
             </v-window-item>
 
-            <v-window-item :value="'settings'"> </v-window-item>
+            <v-window-item :value="'settings'">
+              <div>
+                <AccountSettingsComponent
+                  @updateUserData="handleUserData"
+                ></AccountSettingsComponent></div
+            ></v-window-item>
           </v-window>
         </v-card>
       </v-col>
@@ -78,6 +83,7 @@ import WorkExperienceComponent from "@/components/WorkExperienceComponent.vue";
 import LanguageComponent from "@/components/LanguageComponent.vue";
 import HobbiesAndInterestsComponent from "@/components/HobbiesAndInterestsComponent.vue";
 import SkillsComponent from "@/components/SkillsComponent.vue";
+import AccountSettingsComponent from "@/components/AccountSettingsComponent.vue";
 
 export default {
   data: () => ({
@@ -90,6 +96,7 @@ export default {
     LanguageComponent,
     HobbiesAndInterestsComponent,
     SkillsComponent,
+    AccountSettingsComponent,
   },
   methods: {
     handleUserData(userData) {
