@@ -38,7 +38,7 @@
             Sign Up
           </v-btn>
         </template>
-        <v-list>
+        <v-list class="custom-list overflow-x-hidden">
           <v-list-item
             v-for="(item, index) in items"
             :key="index"
@@ -106,7 +106,7 @@
         Profile
       </v-btn>
       <v-btn icon v-if="currentUser" class="chat-icon-btn">
-        <v-icon size="large">mdi-chat</v-icon>
+        <v-icon size="large">mdi-bell-outline</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -262,9 +262,13 @@ export default {
   margin-left: 43%;
 }
 
+.custom-list {
+  max-width: 250px;
+}
+
 @media (max-width: 600px) {
   .chat-icon-btn {
-    margin-left: 50px; /* Less margin on smaller screens */
+    margin-left: 50px;
   }
 }
 </style>
