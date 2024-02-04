@@ -12,6 +12,7 @@
             label="Institution"
             v-model="entry.institution"
             variant="underlined"
+            :placeholder="entry.institution"
           ></v-text-field>
         </v-col>
         <v-col cols="6" xl="5">
@@ -47,8 +48,22 @@
 
       <v-col cols="6">
         <v-row class="buttons">
-          <v-btn class="add-btn" @click="addEducation">Add Education</v-btn>
-          <v-btn class="delete-btn" @click="removeEducation(index)">
+          <v-btn
+            class="add-btn"
+            tile
+            text
+            variant="plain"
+            color="#FFFFFF"
+            @click="addEducation"
+            >Add Education</v-btn
+          >
+          <v-btn
+            class="delete-btn"
+            text
+            variant="plain"
+            color="#FFFFFF"
+            @click="removeEducation(index)"
+          >
             Delete
           </v-btn>
         </v-row>
@@ -71,6 +86,9 @@ export default {
       educationEntries: this.educationData,
     };
   },
+  mounted() {
+    this.loadEducationData();
+  },
   methods: {
     addEducation() {
       this.educationEntries.push({
@@ -87,6 +105,12 @@ export default {
       this.$emit("education-updated", this.educationEntries);
       console.log("Education data emitted:", this.educationEntries);
     },
+    loadEducationData() {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user && user.Education) {
+        this.educationEntries = user.Education;
+      }
+    },
   },
 };
 </script>
@@ -102,6 +126,11 @@ export default {
   margin-left: 50px !important;
 }
 
+.add-btn,
+.delete-btn {
+  background-color: #a33594 !important;
+  color: #f9f9f9;
+}
 .delete-btn {
   margin: 0px 5px 0px 20px;
 }

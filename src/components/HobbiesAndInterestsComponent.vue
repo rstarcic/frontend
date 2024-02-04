@@ -16,8 +16,20 @@
       ></v-row>
       <v-col cols="6">
         <v-row>
-          <v-btn class="add-btn" @click="addHobby">Add Hobby</v-btn>
-          <v-btn class="delete-btn" @click="removeHobby(index)">Delete</v-btn>
+          <v-btn
+            class="add-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="addHobby"
+            >Add Hobby</v-btn
+          >
+          <v-btn
+            class="delete-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="removeHobby(index)"
+            >Delete</v-btn
+          >
         </v-row>
       </v-col>
     </div>
@@ -37,6 +49,9 @@ export default {
       hobbiesAndInterests: this.hobbiesAndInterestsData,
     };
   },
+  mounted() {
+    this.loadHobbiesAndInterestsData();
+  },
   methods: {
     addHobby() {
       this.hobbiesAndInterests.push({ name: "" });
@@ -45,6 +60,12 @@ export default {
     removeHobby(index) {
       this.hobbiesAndInterests.splice(index, 1);
       this.$emit("hobbies-interests-updated", this.hobbiesAndInterests);
+    },
+    loadHobbiesAndInterestsData() {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user && user.HobbiesAndInterests) {
+        this.hobbiesAndInterests = user.HobbiesAndInterests;
+      }
     },
   },
 };
@@ -59,6 +80,11 @@ export default {
 }
 .main-component-div {
   margin-left: 50px !important;
+}
+.add-btn,
+.delete-btn {
+  background-color: #a33594 !important;
+  color: #f9f9f9;
 }
 .delete-btn {
   margin: 0px 5px 0px 20px;

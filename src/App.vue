@@ -193,6 +193,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .main {
   background-color: #8e68b2 !important;

@@ -107,7 +107,15 @@
           prepend-icon="mdi-numeric"
         ></v-text-field> </v-col
     ></v-row>
-    <v-btn @click="saveChanges">Save changes</v-btn>
+    <v-btn
+      tile
+      class="save-changes-btn rounded-lg"
+      text
+      variant="plain"
+      color="#FFFFFF"
+      @click="saveChanges"
+      >Save changes</v-btn
+    >
   </v-form>
 </template>
 

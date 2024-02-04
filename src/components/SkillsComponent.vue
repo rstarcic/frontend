@@ -17,8 +17,20 @@
 
       <v-col cols="6">
         <v-row>
-          <v-btn class="add-btn" @click="addSkill">Add Skill</v-btn>
-          <v-btn class="delete-btn" @click="removeSkill(index)">Delete </v-btn>
+          <v-btn
+            class="add-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="addSkill"
+            >Add Skill</v-btn
+          >
+          <v-btn
+            class="delete-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="removeSkill(index)"
+            >Delete
+          </v-btn>
         </v-row>
       </v-col>
     </div>
@@ -38,6 +50,9 @@ export default {
       skills: this.skillsData,
     };
   },
+  mounted() {
+    this.loadSkillData();
+  },
   methods: {
     addSkill() {
       this.skills.push({ name: "" });
@@ -46,6 +61,12 @@ export default {
     removeSkill(index) {
       this.skills.splice(index, 1);
       this.$emit("skills-updated", this.skills);
+    },
+    loadSkillData() {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user && user.Skills) {
+        this.skills = user.Skills;
+      }
     },
   },
 };

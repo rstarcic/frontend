@@ -52,8 +52,19 @@
 
       <v-col cols="6">
         <v-row>
-          <v-btn class="add-btn" @click="addWorkExperience">Add Work</v-btn>
-          <v-btn class="delete-btn" @click="removeWorkExperience(index)">
+          <v-btn
+            class="add-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="addWorkExperience"
+            >Add Work</v-btn
+          >
+          <v-btn
+            class="delete-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="removeWorkExperience(index)"
+          >
             Delete
           </v-btn>
         </v-row>
@@ -77,6 +88,9 @@ export default {
       workExperiences: this.workData,
     };
   },
+  mounted() {
+    this.loadWorkExperienceData();
+  },
   methods: {
     addWorkExperience() {
       this.workExperiences.push({
@@ -91,6 +105,12 @@ export default {
     removeWorkExperience(index) {
       this.workExperiences.splice(index, 1);
       this.$emit("work-experience-updated", this.workExperiences);
+    },
+    loadWorkExperienceData() {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user && user.WorkExperience) {
+        this.workExperiences = user.WorkExperience;
+      }
     },
   },
 };

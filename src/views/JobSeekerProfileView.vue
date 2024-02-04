@@ -7,6 +7,7 @@
             v-model="tab"
             color="deep-purple-accent-4"
             align-tabs="center"
+            class="tabs"
           >
             <v-tab :value="'update'">Update profile</v-tab>
             <v-tab :value="'add'">Add information</v-tab>
@@ -75,9 +76,16 @@
                   </v-col>
 
                   <v-col cols="12">
-                    <v-btn color="primary" @click="updateUserProfile"
-                      >Save Profile</v-btn
+                    <v-btn
+                      tile
+                      class="save-changes-btn"
+                      text
+                      variant="plain"
+                      color="#FFFFFF"
+                      @click="updateUserProfile"
                     >
+                      Save Profile
+                    </v-btn>
                   </v-col>
                 </v-row>
               </div>
@@ -128,7 +136,9 @@ export default {
     SkillsComponent,
     AccountSettingsComponent,
   },
-
+  mounted() {
+    this.loadBiographyData();
+  },
   methods: {
     handleUserData(userData) {
       const userSessionData = sessionStorage.getItem("user");
@@ -201,6 +211,12 @@ export default {
           });
       }
     },
+    loadBiographyData() {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user && user.Biography) {
+        this.aboutMe = user.Biography;
+      }
+    },
   },
 };
 </script>
@@ -209,6 +225,7 @@ export default {
 .card-design {
   width: 800px;
   height: fit-content;
+  margin-top: 50px !important;
 }
 .text-field-design {
   font-size: 16px;
@@ -216,5 +233,18 @@ export default {
   height: 48px;
   margin-bottom: 50px;
   color: #000000;
+}
+.save-changes-btn {
+  width: 150px !important;
+  height: 40px !important;
+  background-color: #cf5dc0 !important;
+  color: #f9f9f9;
+  margin: 50px;
+}
+.tabs {
+  margin-bottom: 50px;
+}
+.profile-picture {
+  margin: 30px 0px 30px 0px;
 }
 </style>

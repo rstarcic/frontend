@@ -26,8 +26,18 @@
       </v-row>
       <v-col cols="6">
         <v-row>
-          <v-btn class="add-btn" @click="addLanguage">Add Language</v-btn>
-          <v-btn class="delete-btn" @click="removeLanguage(index)"
+          <v-btn
+            class="add-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="addLanguage"
+            >Add Language</v-btn
+          >
+          <v-btn
+            class="delete-btn"
+            variant="plain"
+            color="#FFFFFF"
+            @click="removeLanguage(index)"
             >Delete</v-btn
           >
         </v-row>
@@ -50,6 +60,9 @@ export default {
       proficiencyLevels: ["Beginner", "Intermediate", "Advanced", "Native"],
     };
   },
+  mounted() {
+    this.loadLanguageData();
+  },
   methods: {
     addLanguage() {
       this.languages.push({ name: "", proficiency: "" });
@@ -58,6 +71,12 @@ export default {
     removeLanguage(index) {
       this.languages.splice(index, 1);
       this.$emit("language-updated", this.languages);
+    },
+    loadLanguageData() {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user && user.Languages) {
+        this.languages = user.Languages;
+      }
     },
   },
 };
