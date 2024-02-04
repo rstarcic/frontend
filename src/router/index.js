@@ -55,6 +55,7 @@ const routes = [
     path: "/job-seeker/jobs/:id",
     name: "JobDetails",
     component: SeekerJobDetailsView,
+    meta: { requiresRole: "job seeker" },
     props: true,
   },
   {

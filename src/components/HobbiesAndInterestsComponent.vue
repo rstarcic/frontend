@@ -26,17 +26,25 @@
   
   <script>
 export default {
+  props: {
+    hobbiesAndInterestsData: {
+      type: Array,
+      default: () => [{ name: "" }],
+    },
+  },
   data() {
     return {
-      hobbiesAndInterests: [{ name: "" }],
+      hobbiesAndInterests: this.hobbiesAndInterestsData,
     };
   },
   methods: {
     addHobby() {
       this.hobbiesAndInterests.push({ name: "" });
+      this.$emit("hobbies-interests-updated", this.hobbiesAndInterests);
     },
     removeHobby(index) {
       this.hobbiesAndInterests.splice(index, 1);
+      this.$emit("hobbies-interests-updated", this.hobbiesAndInterests);
     },
   },
 };

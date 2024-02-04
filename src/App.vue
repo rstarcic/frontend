@@ -65,9 +65,6 @@
       color="#12151B"
       v-if="!isUnauthorizedRoute"
     >
-      <v-btn to="/about" color="#FFFFFF" variant="plain" size="small"
-        >About</v-btn
-      >
       <v-btn
         text
         to="/job-seeker/jobs"

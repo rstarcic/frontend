@@ -64,11 +64,17 @@
   
   <script>
 export default {
-  data() {
-    return {
-      workExperiences: [
+  props: {
+    workData: {
+      type: Array,
+      default: () => [
         { company: "", title: "", startDate: "", endDate: "", description: "" },
       ],
+    },
+  },
+  data() {
+    return {
+      workExperiences: this.workData,
     };
   },
   methods: {
@@ -80,9 +86,11 @@ export default {
         endDate: "",
         description: "",
       });
+      this.$emit("work-experience-updated", this.workExperiences);
     },
     removeWorkExperience(index) {
       this.workExperiences.splice(index, 1);
+      this.$emit("work-experience-updated", this.workExperiences);
     },
   },
 };

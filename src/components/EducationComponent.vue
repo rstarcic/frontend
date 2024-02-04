@@ -58,11 +58,17 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      educationEntries: [
+  props: {
+    educationData: {
+      type: Array,
+      default: () => [
         { institution: "", degree: "", startYear: "", endYear: "" },
       ],
+    },
+  },
+  data() {
+    return {
+      educationEntries: this.educationData,
     };
   },
   methods: {
@@ -73,9 +79,13 @@ export default {
         startYear: "",
         endYear: "",
       });
+      this.$emit("education-updated", this.educationEntries);
+      console.log("Education data emitted:", this.educationEntries);
     },
     removeEducation(index) {
       this.educationEntries.splice(index, 1);
+      this.$emit("education-updated", this.educationEntries);
+      console.log("Education data emitted:", this.educationEntries);
     },
   },
 };

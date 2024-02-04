@@ -27,17 +27,25 @@
   
   <script>
 export default {
+  props: {
+    skillsData: {
+      type: Array,
+      default: () => [{ name: "" }],
+    },
+  },
   data() {
     return {
-      skills: [{ name: "" }],
+      skills: this.skillsData,
     };
   },
   methods: {
     addSkill() {
       this.skills.push({ name: "" });
+      this.$emit("skills-updated", this.skills);
     },
     removeSkill(index) {
       this.skills.splice(index, 1);
+      this.$emit("skills-updated", this.skills);
     },
   },
 };

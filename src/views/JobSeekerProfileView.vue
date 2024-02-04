@@ -27,6 +27,7 @@
                   <v-col cols="12">
                     <h2>About Me</h2>
                     <v-textarea
+                      v-model="aboutMe"
                       class="text-field-design"
                       label="Summary"
                       variant="underlined"
@@ -36,28 +37,47 @@
 
                   <v-col cols="12">
                     <h2>Education</h2>
-                    <EducationComponent></EducationComponent>
+                    <EducationComponent
+                      :educationData="educationData"
+                      @education-updated="handleEducationUpdate"
+                    ></EducationComponent>
                   </v-col>
 
                   <v-col cols="12">
                     <h2>Work Experience</h2>
-                    <WorkExperienceComponent></WorkExperienceComponent>
+                    <WorkExperienceComponent
+                      :workData="workData"
+                      @work-experience-updated="handleWorkExperienceUpdate"
+                    ></WorkExperienceComponent>
                   </v-col>
                   <v-col cols="12">
                     <h2>Languages</h2>
-                    <LanguageComponent></LanguageComponent>
+                    <LanguageComponent
+                      :languagesData="languagesData"
+                      @language-updated="handleLanguageUpdate"
+                    ></LanguageComponent>
                   </v-col>
                   <v-col cols="12">
                     <h2>Hobbies & Interests</h2>
-                    <HobbiesAndInterestsComponent></HobbiesAndInterestsComponent>
+                    <HobbiesAndInterestsComponent
+                      :hobbiesAndInterestsData="hobbiesAndInterestsData"
+                      @hobbies-interests-updated="
+                        handleHobbiesAndInterestUpdate
+                      "
+                    ></HobbiesAndInterestsComponent>
                   </v-col>
                   <v-col cols="12">
                     <h2>Skills</h2>
-                    <SkillsComponent></SkillsComponent>
+                    <SkillsComponent
+                      :skillsData="skillsData"
+                      @skills-updated="handleSkillsUpdate"
+                    ></SkillsComponent>
                   </v-col>
 
                   <v-col cols="12">
-                    <v-btn color="primary">Save Profile</v-btn>
+                    <v-btn color="primary" @click="updateUserProfile"
+                      >Save Profile</v-btn
+                    >
                   </v-col>
                 </v-row>
               </div>
@@ -88,6 +108,16 @@ import AccountSettingsComponent from "@/components/AccountSettingsComponent.vue"
 export default {
   data: () => ({
     tab: "update",
+    aboutMe: [],
+    educationData: [
+      { institution: "", degree: "", startYear: "", endYear: "" },
+    ],
+    workData: [
+      { company: "", title: "", startDate: "", endDate: "", description: "" },
+    ],
+    languagesData: [{ name: "", proficiency: "" }],
+    hobbiesAndInterestsData: [{ name: "" }],
+    skillsData: [{ name: "" }],
   }),
   components: {
     UpdateProfileComponent,
@@ -98,6 +128,7 @@ export default {
     SkillsComponent,
     AccountSettingsComponent,
   },
+
   methods: {
     handleUserData(userData) {
       const userSessionData = sessionStorage.getItem("user");
@@ -118,6 +149,56 @@ export default {
           });
       } else {
         console.error("User session data not found");
+      }
+    },
+    handleEducationUpdate(updatedEducationEntries) {
+      this.educationData = updatedEducationEntries;
+      console.log("Education data updated:", this.educationData);
+    },
+    handleWorkExperienceUpdate(updatedWorkEntries) {
+      this.workData = updatedWorkEntries;
+      console.log("Work data updated:", updatedWorkEntries);
+    },
+    handleLanguageUpdate(updatedLanguageEntries) {
+      this.languagesData = updatedLanguageEntries;
+      console.log("Language data updated:", updatedLanguageEntries);
+    },
+    handleHobbiesAndInterestUpdate(updatedHobbiesAndInterestsEntries) {
+      this.hobbiesAndInterestsData = updatedHobbiesAndInterestsEntries;
+      console.log(
+        "Hobbies and interests data updated:",
+        updatedHobbiesAndInterestsEntries
+      );
+    },
+    handleSkillsUpdate(updatedSkillsEntries) {
+      this.skillsData = updatedSkillsEntries;
+      console.log("Language data updated:", updatedSkillsEntries);
+    },
+    updateUserProfile() {
+      const userSessionData = sessionStorage.getItem("user");
+      if (userSessionData) {
+        const user = JSON.parse(userSessionData);
+        const userId = user._id;
+        const profileData = {
+          _id: userId,
+          aboutMe: this.aboutMe,
+          education: this.educationData,
+          workExperience: this.workData,
+          languages: this.languagesData,
+          hobbiesAndInterests: this.hobbiesAndInterestsData,
+          skills: this.skillsData,
+        };
+        this.$apiClient
+          .post(
+            "http://localhost:3000/api/job-seeker/profile/edit",
+            profileData
+          )
+          .then((response) => {
+            console.log("Profile successfully updated", response);
+          })
+          .catch((error) => {
+            console.error("Error updating profile:", error);
+          });
       }
     },
   },

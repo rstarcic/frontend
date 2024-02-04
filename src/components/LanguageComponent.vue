@@ -38,18 +38,26 @@
   
   <script>
 export default {
+  props: {
+    languagesData: {
+      type: Array,
+      default: () => [{ name: "", proficiency: "" }],
+    },
+  },
   data() {
     return {
-      languages: [{ name: "", proficiency: "" }],
+      languages: this.languagesData,
       proficiencyLevels: ["Beginner", "Intermediate", "Advanced", "Native"],
     };
   },
   methods: {
     addLanguage() {
       this.languages.push({ name: "", proficiency: "" });
+      this.$emit("language-updated", this.languages);
     },
     removeLanguage(index) {
       this.languages.splice(index, 1);
+      this.$emit("language-updated", this.languages);
     },
   },
 };
