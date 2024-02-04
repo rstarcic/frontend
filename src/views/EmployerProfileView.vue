@@ -22,7 +22,9 @@
 
             <v-window-item :value="'settings'">
               <div>
-                <AccountSettingsComponent></AccountSettingsComponent></div
+                <AccountSettingsComponent
+                  @updateUserData="handleUserData"
+                ></AccountSettingsComponent></div
             ></v-window-item>
           </v-window>
         </v-card>
@@ -41,6 +43,29 @@ export default {
   components: {
     UpdateProfileComponent,
     AccountSettingsComponent,
+  },
+  methods: {
+    handleUserData(userData) {
+      const userSessionData = sessionStorage.getItem("user");
+      if (userSessionData) {
+        const user = JSON.parse(userSessionData);
+        userData._id = user._id;
+        const role = "employer";
+        const updatedUserData = { ...userData, role };
+        console.log("userData being sent:", updatedUserData);
+        this.$apiClient
+          .patch("http://localhost:3000/api/employer/profile", updatedUserData)
+          .then((response) => {
+            console.log("Server response:", response);
+            sessionStorage.setItem("user", JSON.stringify(response.data.user));
+          })
+          .catch((error) => {
+            console.error("There was an error!", error);
+          });
+      } else {
+        console.error("User session data not found");
+      }
+    },
   },
 };
 </script>

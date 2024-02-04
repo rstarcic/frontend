@@ -78,14 +78,25 @@ export default {
         if (userSessionData) {
           const user = JSON.parse(userSessionData);
           const id = user._id;
+          const role = user.role;
           const passwordData = {
             id,
             currentPassword: this.password,
             newPassword: this.newPassword,
           };
+          let apiEndpointBasedOnUserRole;
+          if (role === "job seeker") {
+            apiEndpointBasedOnUserRole =
+              "http://localhost:3000/api/job-seeker/profile/settings";
+          } else if (role === "employer") {
+            apiEndpointBasedOnUserRole =
+              "http://localhost:3000/api/employer/profile/settings";
+          } else {
+            throw new Error("Invalid user type.");
+          }
 
           const response = await this.$apiClient.put(
-            "http://localhost:3000/api/job-seeker/profile/settings",
+            apiEndpointBasedOnUserRole,
             passwordData
           );
           console.log("Profile settings successfully updated", response);

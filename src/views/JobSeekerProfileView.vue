@@ -149,7 +149,10 @@ export default {
         const updatedUserData = { ...userData, role };
         console.log("userData being sent:", updatedUserData);
         this.$apiClient
-          .post("http://localhost:3000/api/job-seeker/profile", updatedUserData)
+          .patch(
+            "http://localhost:3000/api/job-seeker/profile",
+            updatedUserData
+          )
           .then((response) => {
             console.log("Server response:", response);
             sessionStorage.setItem("user", JSON.stringify(response.data.user));
