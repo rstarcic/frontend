@@ -21,6 +21,7 @@
             v-model="job.title"
             label="Title"
             :disabled="!isEditing"
+            placeholder="job.title"
           ></v-text-field
         ></v-card-title>
         <v-card-subtitle class="mb-2">
@@ -82,6 +83,7 @@
           <v-text-field
             v-model="job.paymentMethod"
             :disabled="!isEditing"
+            readonly
           ></v-text-field>
         </div>
         <div class="info-item">
@@ -160,11 +162,11 @@
 
       <v-card-actions class="d-flex justify-center align-center">
         <div class="save-delete-button-container">
-          <v-btn icon @click="saveChanges" v-if="isEditing">
+          <v-btn icon @click="updateJobDetails" v-if="isEditing">
             <v-icon>mdi-check</v-icon>
           </v-btn>
 
-          <v-btn icon color="red" @click="deleteJob(job.id)">
+          <v-btn icon color="red" @click="deleteJob()">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </div>
@@ -191,6 +193,17 @@
         </v-row>
       </v-container>
     </v-card>
+    <v-snackbar
+      v-model="showSnackbar"
+      :timeout="4000"
+      :color="snackbarColor"
+      elevation="24"
+    >
+      {{ snackbarMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="showSnackbar = false">Close</v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -199,49 +212,24 @@
 export default {
   data() {
     return {
-      job: null,
+      job: {
+        title: "",
+        category: "",
+        description: "",
+        location: "",
+        payment: "",
+        jobType: "",
+        paymentMethod: "",
+        duration: "",
+        qualifications: "",
+        equipmentNeeded: "",
+        contactInfo: "",
+        applicationDeadline: "",
+        workConditions: "",
+        createdBy: "",
+        createdAt: "",
+      },
       isEditing: false,
-      jobs: [
-        {
-          id: 1,
-          category: "Programming",
-          title: "Front-End Developer Wanted",
-          description:
-            "We are looking for an experienced Front-End developer...",
-          jobType: "One-time job",
-          location: "Remote",
-          payment: "40€/h",
-          paymentMethod: "PayPal",
-          duration: "3 months",
-          qualifications: "Experience with React, CSS...",
-          equipmentNeeded: false,
-          contactInfo: "ivan@company.com",
-          applicationDeadline: "01.05.2024",
-          workConditions: "Working hours from 9 to 17h",
-          createdBy: "Ivan Ivanović",
-          createdDate: "25.04.2024.",
-        },
-        {
-          id: 2,
-          category: "Maintenance",
-          title: "House Painter",
-          description:
-            "Looking for a skilled house painter with experience in various painting techniques for residential properties.",
-          jobType: "One-time job",
-          location: "Milanovićeva ulica 23, Zagreb",
-          payment: "30€/h",
-          paymentMethod: "Bank Transfer",
-          duration: "2 weeks",
-          qualifications:
-            "Experience in painting, knowledge of paint types and techniques.",
-          equipmentNeeded: true,
-          contactInfo: "contact@painter.com",
-          applicationDeadline: "2024-04-15",
-          workConditions: "Weekdays from 8 to 16h",
-          createdBy: "Ivan Ivanović",
-          createdDate: "20.04.2024.",
-        },
-      ],
       applicants: [
         {
           name: "Marko Marković",
@@ -255,25 +243,90 @@ export default {
           profile: "profile_link",
         },
       ],
+      showSnackbar: false,
+      snackbarMessage: "",
+      snackbarColor: "",
     };
   },
-  mounted() {
-    const jobId = this.$route.params.id;
-    this.job = this.fetchJobDetails(jobId);
+  async mounted() {
+    const id = this.$route.params.id;
+    await this.fetchJobDetails(id);
   },
   methods: {
-    fetchJobDetails(jobId) {
-      return this.jobs.find((job) => job.id === parseInt(jobId));
+    async fetchJobDetails(id) {
+      try {
+        const response = await this.$apiClient.get(
+          `http://localhost:3000/api/employer/jobs/${id}`
+        );
+        if (response && response.data) {
+          this.job = response.data.jobDetails;
+        } else {
+          console.log("No job details found for the provided job ID.");
+          this.job = null;
+        }
+      } catch (error) {
+        console.error("Error fetching job details:", error);
+        this.job = null;
+      }
+    },
+    async updateJobDetails() {
+      try {
+        const id = this.$route.params.id;
+        const response = await this.$apiClient.put(
+          `http://localhost:3000/api/employer/jobs/${id}`,
+          this.job
+        );
+        if (response && response.data) {
+          this.job = response.data.updatedJobDetails;
+          this.showSnackbar = true;
+          this.snackbarMessage = "Job successfully updated";
+          this.snackbarColor = "success";
+          this.isEditing = false;
+        } else {
+          this.job = null;
+          console.log("No job details found for the provided job ID.");
+          this.snackbarMessage = "Update failed. Please try again.";
+          this.snackbarColor = "error";
+          this.showSnackbar = true;
+          this.openDialog = false;
+        }
+      } catch (error) {
+        console.error("Error updating job:", error);
+        this.job = null;
+        this.showSnackbar = true;
+        this.snackbarMessage = "An error occurred.";
+        this.snackbarColor = "error";
+      }
+    },
+    async deleteJob() {
+      try {
+        const id = this.$route.params.id;
+        const response = await this.$apiClient.delete(
+          `http://localhost:3000/api/employer/jobs/${id}`
+        );
+        if (response && response.data) {
+          this.showSnackbar = true;
+          this.snackbarMessage = "Job successfully deleted";
+          this.snackbarColor = "success";
+          this.$router.push("/employer/jobs");
+        } else {
+          this.job = null;
+          console.log("No job details found for the provided job ID.");
+          this.snackbarMessage = "Delete failed. Please try again.";
+          this.snackbarColor = "error";
+          this.showSnackbar = true;
+          this.openDialog = false;
+        }
+      } catch (error) {
+        console.error("Error deleting job:", error);
+        this.job = null;
+        this.showSnackbar = true;
+        this.snackbarMessage = "An error occurred.";
+        this.snackbarColor = "error";
+      }
     },
     toggleEditing() {
       this.isEditing = !this.isEditing;
-    },
-    saveChanges() {
-      this.isEditing = false;
-    },
-    deleteJob(jobId) {
-      this.jobs = this.jobs.filter((job) => job.id !== jobId);
-      this.job = null;
     },
   },
 };

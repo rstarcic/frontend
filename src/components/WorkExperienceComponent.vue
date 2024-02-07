@@ -1,12 +1,8 @@
 <template>
-  <div>
-    <div
-      v-for="(entry, index) in workExperiences"
-      :key="index"
-      class="main-component-div"
-    >
+  <div class="d-flex align-center">
+    <div v-for="(entry, index) in workExperiences" :key="index">
       <v-row justify="center">
-        <v-col cols="6" xl="5">
+        <v-col cols="6" xl="5" class="pa-1">
           <v-text-field
             class="text-field-design"
             label="Company Name"
@@ -14,7 +10,7 @@
             variant="underlined"
           ></v-text-field>
         </v-col>
-        <v-col cols="6" xl="5">
+        <v-col cols="6" xl="5" class="pa-1">
           <v-text-field
             class="text-field-design"
             label="Job Title"
@@ -24,7 +20,7 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="6" xl="5">
+        <v-col cols="6" xl="5" class="pa-1">
           <v-text-field
             class="text-field-design"
             label="Start Date"
@@ -32,7 +28,7 @@
             v-model="entry.startDate"
           ></v-text-field>
         </v-col>
-        <v-col cols="6" xl="5">
+        <v-col cols="6" xl="5" class="pa-1">
           <v-text-field
             class="text-field-design"
             label="End Date"
@@ -41,17 +37,18 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-col cols="6" xl="5">
-        <v-textarea
-          class="textarea-design"
-          label="Description"
-          v-model="entry.description"
-          variant="underlined"
-        ></v-textarea>
-      </v-col>
-
-      <v-col cols="6">
-        <v-row>
+      <v-row>
+        <v-col cols="12" class="d-flex align-center justify-center">
+          <v-textarea
+            class="textarea-design"
+            label="Description"
+            v-model="entry.description"
+            variant="underlined"
+          ></v-textarea>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="6" class="pa-1">
           <v-btn
             class="add-btn"
             variant="plain"
@@ -67,8 +64,8 @@
           >
             Delete
           </v-btn>
-        </v-row>
-      </v-col>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -117,20 +114,14 @@ export default {
 </script>
   
   <style>
-.main-component-div {
-  margin-left: 50px !important;
-}
 .text-field-design {
   font-size: 16px;
-  width: 70%;
+  width: fit-content !important;
   height: 48px;
   color: #000000;
 }
 .textarea-design {
-  width: 250 !important;
-}
-.delete-btn {
-  margin: 0px 5px 0px 20px;
+  width: 300px !important;
 }
 </style>
   

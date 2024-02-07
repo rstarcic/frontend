@@ -98,7 +98,7 @@
         color="#FFFFFF"
         variant="plain"
         size="small"
-        :to="getProfileRoute"
+        @click="getProfileRoute"
       >
         Profile
       </v-btn>
@@ -168,12 +168,14 @@ export default {
     getProfileRoute() {
       if (this.currentUser) {
         if (this.currentUser.role === "employer") {
-          return "/employer/profile";
+          this.$router.push("/employer/profile");
         } else if (this.currentUser.role === "job seeker") {
-          return "/job-seeker/profile";
+          this.$router.push("/job-seeker/profile");
         }
+      } else {
+        console.error("No current user found. Redirecting to login.");
+        this.$router.push("/login");
       }
-      return "/login";
     },
     logout() {
       this.currentUser = null;

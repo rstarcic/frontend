@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div
-      v-for="(skill, index) in skills"
-      :key="index"
-      class="main-component-div"
-    >
+    <div v-for="(skill, index) in skills" :key="index">
       <v-row>
         <v-col cols="6" xl="10">
           <v-text-field
@@ -15,8 +11,8 @@
           ></v-text-field> </v-col
       ></v-row>
 
-      <v-col cols="6">
-        <v-row>
+      <v-row justify="center">
+        <v-col cols="6">
           <v-btn
             class="add-btn"
             variant="plain"
@@ -31,8 +27,8 @@
             @click="removeSkill(index)"
             >Delete
           </v-btn>
-        </v-row>
-      </v-col>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -73,17 +69,11 @@ export default {
 </script>
   
   <style>
-.main-component-div {
-  margin-left: 50px !important;
-}
 .text-field-design {
   font-size: 16px;
   width: 250px !important;
   height: 48px;
   color: #000000;
-}
-.delete-btn {
-  margin: 0px 5px 0px 20px;
 }
 </style>
   

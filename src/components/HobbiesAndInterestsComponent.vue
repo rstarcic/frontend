@@ -1,12 +1,8 @@
 <template>
   <div>
-    <div
-      v-for="(hobby, index) in hobbiesAndInterests"
-      :key="index"
-      class="main-component-div"
-    >
+    <div v-for="(hobby, index) in hobbiesAndInterests" :key="index">
       <v-row>
-        <v-col cols="6" xl="10">
+        <v-col cols="6" xl="5">
           <v-text-field
             class="text-field-design"
             label="Hobby or Interest"
@@ -14,8 +10,8 @@
             variant="underlined"
           ></v-text-field> </v-col
       ></v-row>
-      <v-col cols="6">
-        <v-row>
+      <v-row justify="center">
+        <v-col cols="6">
           <v-btn
             class="add-btn"
             variant="plain"
@@ -30,8 +26,8 @@
             @click="removeHobby(index)"
             >Delete</v-btn
           >
-        </v-row>
-      </v-col>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -78,16 +74,11 @@ export default {
   height: 48px;
   color: #000000;
 }
-.main-component-div {
-  margin-left: 50px !important;
-}
+
 .add-btn,
 .delete-btn {
   background-color: #a33594 !important;
   color: #f9f9f9;
-}
-.delete-btn {
-  margin: 0px 5px 0px 20px;
 }
 </style>
   

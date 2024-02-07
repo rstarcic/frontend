@@ -22,75 +22,73 @@
               </div>
             </v-window-item>
 
-            <v-window-item :value="'add'"
-              ><div>
-                <v-row>
-                  <v-col cols="12">
-                    <h2>About Me</h2>
-                    <v-textarea
-                      v-model="aboutMe"
-                      class="text-field-design"
-                      label="Summary"
-                      variant="underlined"
-                      maxlength="500"
-                    ></v-textarea>
-                  </v-col>
+            <v-window-item :value="'add'">
+              <div class="d-flex align-center justify-center">
+                <div class="my-6">
+                  <h2>About Me</h2>
+                  <v-textarea
+                    v-model="aboutMe"
+                    class="text-field-design"
+                    label="Summary"
+                    variant="underlined"
+                    maxlength="500"
+                  ></v-textarea>
+                </div>
 
-                  <v-col cols="12">
-                    <h2>Education</h2>
-                    <EducationComponent
-                      :educationData="educationData"
-                      @education-updated="handleEducationUpdate"
-                    ></EducationComponent>
-                  </v-col>
+                <div class="my-6">
+                  <h2>Education</h2>
+                  <EducationComponent
+                    :educationData="educationData"
+                    @education-updated="handleEducationUpdate"
+                  ></EducationComponent>
+                </div>
 
-                  <v-col cols="12">
-                    <h2>Work Experience</h2>
-                    <WorkExperienceComponent
-                      :workData="workData"
-                      @work-experience-updated="handleWorkExperienceUpdate"
-                    ></WorkExperienceComponent>
-                  </v-col>
-                  <v-col cols="12">
-                    <h2>Languages</h2>
-                    <LanguageComponent
-                      :languagesData="languagesData"
-                      @language-updated="handleLanguageUpdate"
-                    ></LanguageComponent>
-                  </v-col>
-                  <v-col cols="12">
-                    <h2>Hobbies & Interests</h2>
-                    <HobbiesAndInterestsComponent
-                      :hobbiesAndInterestsData="hobbiesAndInterestsData"
-                      @hobbies-interests-updated="
-                        handleHobbiesAndInterestUpdate
-                      "
-                    ></HobbiesAndInterestsComponent>
-                  </v-col>
-                  <v-col cols="12">
-                    <h2>Skills</h2>
-                    <SkillsComponent
-                      :skillsData="skillsData"
-                      @skills-updated="handleSkillsUpdate"
-                    ></SkillsComponent>
-                  </v-col>
+                <div class="my-6">
+                  <h2>Work Experience</h2>
+                  <WorkExperienceComponent
+                    :workData="workData"
+                    @work-experience-updated="handleWorkExperienceUpdate"
+                  ></WorkExperienceComponent>
+                </div>
 
-                  <v-col cols="12">
-                    <v-btn
-                      tile
-                      class="save-changes-btn"
-                      text
-                      variant="plain"
-                      color="#FFFFFF"
-                      @click="updateUserProfile"
-                    >
-                      Save Profile
-                    </v-btn>
-                  </v-col>
-                </v-row>
+                <div class="my-6">
+                  <h2>Languages</h2>
+                  <LanguageComponent
+                    :languagesData="languagesData"
+                    @language-updated="handleLanguageUpdate"
+                  ></LanguageComponent>
+                </div>
+
+                <div class="my-3">
+                  <h2>Hobbies & Interests</h2>
+                  <HobbiesAndInterestsComponent
+                    :hobbiesAndInterestsData="hobbiesAndInterestsData"
+                    @hobbies-interests-updated="handleHobbiesAndInterestUpdate"
+                  ></HobbiesAndInterestsComponent>
+                </div>
+
+                <div class="my-3">
+                  <h2>Skills</h2>
+                  <SkillsComponent
+                    :skillsData="skillsData"
+                    @skills-updated="handleSkillsUpdate"
+                  ></SkillsComponent>
+                </div>
+
+                <div class="my-3">
+                  <v-btn
+                    tile
+                    class="save-changes-btn"
+                    text
+                    variant="plain"
+                    color="#FFFFFF"
+                    @click="updateUserProfile"
+                  >
+                    Save Profile
+                  </v-btn>
+                </div>
               </div>
             </v-window-item>
-
             <v-window-item :value="'settings'">
               <div>
                 <AccountSettingsComponent
@@ -140,7 +138,7 @@ export default {
     this.loadBiographyData();
   },
   methods: {
-    handleUserData(userData) {
+    async handleUserData(userData) {
       const userSessionData = sessionStorage.getItem("user");
       if (userSessionData) {
         const user = JSON.parse(userSessionData);
@@ -148,7 +146,7 @@ export default {
         const role = "job seeker";
         const updatedUserData = { ...userData, role };
         console.log("userData being sent:", updatedUserData);
-        this.$apiClient
+        await this.$apiClient
           .patch(
             "http://localhost:3000/api/job-seeker/profile",
             updatedUserData
@@ -187,7 +185,7 @@ export default {
       this.skillsData = updatedSkillsEntries;
       console.log("Language data updated:", updatedSkillsEntries);
     },
-    updateUserProfile() {
+    async updateUserProfile() {
       const userSessionData = sessionStorage.getItem("user");
       if (userSessionData) {
         const user = JSON.parse(userSessionData);
@@ -201,7 +199,7 @@ export default {
           hobbiesAndInterests: this.hobbiesAndInterestsData,
           skills: this.skillsData,
         };
-        this.$apiClient
+        await this.$apiClient
           .post(
             "http://localhost:3000/api/job-seeker/profile/edit",
             profileData
@@ -225,11 +223,6 @@ export default {
 </script>
 
 <style>
-.card-design {
-  width: 800px;
-  height: fit-content;
-  margin-top: 50px !important;
-}
 .text-field-design {
   font-size: 16px;
   width: 300px;
@@ -247,7 +240,11 @@ export default {
 .tabs {
   margin-bottom: 50px;
 }
-.profile-picture {
-  margin: 30px 0px 30px 0px;
+
+.d-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -1,48 +1,42 @@
 <template>
-  <div>
-    <div
-      v-for="(language, index) in languages"
-      :key="index"
-      class="main-component-div"
-    >
-      <v-row>
-        <v-col cols="6" xl="5">
-          <v-text-field
-            class="text-field-design"
-            label="Language"
-            v-model="language.name"
-            variant="underlined"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="6" xl="5">
-          <v-select
-            class="text-field-design"
-            label="Proficiency"
-            :items="proficiencyLevels"
-            v-model="language.proficiency"
-            variant="underlined"
-          ></v-select>
-        </v-col>
-      </v-row>
-      <v-col cols="6">
-        <v-row>
-          <v-btn
-            class="add-btn"
-            variant="plain"
-            color="#FFFFFF"
-            @click="addLanguage"
-            >Add Language</v-btn
-          >
-          <v-btn
-            class="delete-btn"
-            variant="plain"
-            color="#FFFFFF"
-            @click="removeLanguage(index)"
-            >Delete</v-btn
-          >
-        </v-row>
+  <div v-for="(language, index) in languages" :key="index">
+    <v-row>
+      <v-col cols="6" xl="5">
+        <v-text-field
+          class="text-field-design"
+          label="Language"
+          v-model="language.name"
+          variant="underlined"
+        ></v-text-field>
       </v-col>
-    </div>
+      <v-col cols="6" xl="5">
+        <v-select
+          class="text-field-design"
+          label="Proficiency"
+          :items="proficiencyLevels"
+          v-model="language.proficiency"
+          variant="underlined"
+        ></v-select>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="6">
+        <v-btn
+          class="add-btn"
+          variant="plain"
+          color="#FFFFFF"
+          @click="addLanguage"
+          >Add Language</v-btn
+        >
+        <v-btn
+          class="delete-btn"
+          variant="plain"
+          color="#FFFFFF"
+          @click="removeLanguage(index)"
+          >Delete</v-btn
+        >
+      </v-col>
+    </v-row>
   </div>
 </template>
   
@@ -83,9 +77,6 @@ export default {
 </script>
   
   <style>
-.main-component-div {
-  margin-left: 50px !important;
-}
 .text-field-design {
   font-size: 16px;
   width: 70%;

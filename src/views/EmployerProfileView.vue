@@ -7,6 +7,7 @@
             v-model="tab"
             color="deep-purple-accent-4"
             align-tabs="center"
+            class="tabs"
           >
             <v-tab :value="'update'">Update profile</v-tab>
             <v-tab :value="'settings'">Account settings</v-tab>
@@ -72,8 +73,13 @@ export default {
 
 <style>
 .card-design {
-  width: 800px;
+  width: 900px;
   height: fit-content;
+  margin-top: 50px !important;
+}
+
+.tabs {
+  margin-top: 50px !important;
 }
 .text-field-design {
   font-size: 16px;

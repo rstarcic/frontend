@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-center">
-    <v-card class="main-card">
+    <v-card class="main-card" v-if="jobs.length > 0">
       <v-card-title style="color: #4b1c56">Jobs you have posted</v-card-title>
       <table class="d-flex align-center custom-table">
         <thead>
@@ -28,13 +28,32 @@
               <v-btn
                 color="#4b1c56
 "
-                @click="openJobDetails(job)"
+                @click="openJobDetails(job.id)"
                 >View details</v-btn
               >
             </td>
           </tr>
         </tbody>
       </table>
+    </v-card>
+
+    <v-card class="not-main-card" v-else>
+      <v-card-title class="not-main-title">
+        Currently, there are no job postings.
+      </v-card-title>
+      <v-card-subtitle class="not-main-subtitle"
+        >Would you like to post a new job?</v-card-subtitle
+      >
+      <v-btn
+        @click="openJobPosting"
+        color="#f9f9f9"
+        class="post-job-btn"
+        tile
+        text
+        variant="plain"
+      >
+        Post a new job
+      </v-btn>
     </v-card>
   </div>
 </template>
@@ -44,56 +63,60 @@ export default {
   data() {
     return {
       selectedJob: null,
-      jobs: [
-        {
-          id: 1,
-          category: "Programming",
-          title: "Front-End Developer Wanted",
-          description:
-            "We are looking for an experienced Front-End developer...",
-          jobType: "One-time job",
-          location: "Remote",
-          payment: "40€/h",
-          paymentMethod: "PayPal",
-          duration: "3 months",
-          qualifications: "Experience with React, CSS...",
-          equipmentNeeded: false,
-          contactInfo: "ivan@company.com",
-          applicationDeadline: "01.05.2024",
-          workConditions: "Working hours from 9 to 17h",
-          createdBy: "Ivan Ivanović",
-          createdDate: "25.04.2024.",
-        },
-        {
-          id: 2,
-          category: "Maintenance",
-          title: "House Painter",
-          description:
-            "Looking for a skilled house painter with experience in various painting techniques for residential properties.",
-          jobType: "One-time job",
-          location: "Milanovićeva ulica 23, Zagreb",
-          payment: "30€/h",
-          paymentMethod: "Bank Transfer",
-          duration: "2 weeks",
-          qualifications:
-            "Experience in painting, knowledge of paint types and techniques.",
-          equipmentNeeded: true,
-          contactInfo: "contact@painter.com",
-          applicationDeadline: "2024-04-15",
-          workConditions: "Weekdays from 8 to 16h",
-          createdBy: "Ivan Ivanović",
-          createdDate: "20.04.2024.",
-        },
-      ],
+      jobs: [],
     };
   },
+  mounted() {
+    this.getJobsForEmployer();
+  },
   methods: {
-    openJobDetails(job) {
-      const jobId = job.id;
+    openJobDetails(id) {
       this.$router.push({
         name: "EmployerJobDetailsView",
-        params: { id: jobId },
+        params: { id: id },
       });
+    },
+    openJobPosting() {
+      this.$router.push("/employer/jobs/create");
+    },
+    async getJobsForEmployer() {
+      try {
+        const userSessionData = sessionStorage.getItem("user");
+        if (userSessionData) {
+          const employer = JSON.parse(userSessionData);
+          const employerId = employer._id;
+          const response = await this.$apiClient.get(
+            `http://localhost:3000/api/employer/jobs?employerId=${employerId}`
+          );
+
+          if (response.status === 200) {
+            console.log("Response:", response);
+            const jobsData = response.data;
+
+            if (Array.isArray(jobsData)) {
+              jobsData.forEach((jobData) => {
+                const originalDate = jobData.createdAt;
+                const formattedDate = new Date(originalDate)
+                  .toISOString()
+                  .split("T")[0];
+                this.jobs.push({
+                  id: jobData._id,
+                  title: jobData.title,
+                  category: jobData.category,
+                  location: jobData.location,
+                  createdDate: formattedDate,
+                });
+              });
+            } else {
+              console.error("Failed to retrieve jobs.");
+            }
+          } else {
+            console.error("Failed to retrieve jobs.");
+          }
+        }
+      } catch (error) {
+        console.error("Error while retrieveing job creation:", error);
+      }
     },
   },
 };
@@ -105,6 +128,12 @@ export default {
   background-color: #f2f2f2;
 }
 
+.not-main-card {
+  margin-top: 50px;
+  width: 600px;
+  height: 250px;
+  background-color: #f2f2f2;
+}
 .custom-table {
   width: 100%;
   margin: 5px 0;
@@ -138,5 +167,17 @@ export default {
 }
 .custom-table th {
   background-color: #642b73;
+}
+.not-main-title {
+  margin-top: 20px;
+}
+.not-main-subtitle {
+  margin-top: 10px;
+}
+.post-job-btn {
+  width: 150px !important;
+  height: 40px !important;
+  background-color: #4b1c56 !important;
+  margin: 50px;
 }
 </style>

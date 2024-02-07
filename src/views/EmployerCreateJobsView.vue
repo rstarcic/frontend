@@ -1,20 +1,7 @@
 <template>
   <div class="d-flex align-center">
-    <v-snackbar
-      v-model="showSnackbar"
-      :timeout="2000"
-      :color="snackbarColor"
-      elevation="24"
-    >
-      {{ snackbarMessage }}
-      <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="showSnackbar = false"
-          >Close</v-btn
-        >
-      </template>
-    </v-snackbar>
-    <v-card class="job-card" v-if="jobData">
-      <v-form @submit.prevent="PostAJob">
+    <v-card class="job-card">
+      <v-form @submit.prevent="confirmAndPostJob">
         <v-card-title class="form-title"> Job Information </v-card-title>
         <v-card-subtitle class="form-subtitle"
           >Dear employer, please fill in the job details below</v-card-subtitle
@@ -55,10 +42,33 @@
             <p class="poppins-medium-italic">Job type</p>
             <v-text-field
               class="text-field-design"
-              label="Job Type"
+              readonly
               v-model="jobData.jobType"
+              :disabled="!isEditing"
+              value="One-time"
+            ></v-text-field>
+          </div>
+
+          <div class="text-field-div">
+            <p class="poppins-medium-italic">Payment</p>
+
+            <v-text-field
+              class="text-field-design"
+              label="Payment"
+              v-model="jobData.payment"
               outlined
-              placeholder="Always One-time"
+              placeholder="e.g., 3000€/month, 40€/h"
+            ></v-text-field>
+          </div>
+          <div class="text-field-div">
+            <p class="poppins-medium-italic">Payment Method</p>
+
+            <v-text-field
+              class="text-field-design"
+              readonly
+              v-model="jobData.paymentMethod"
+              :disabled="!isEditing"
+              value="Integrated PayPal"
             ></v-text-field>
           </div>
           <div class="text-field-div">
@@ -72,30 +82,19 @@
               placeholder="e.g., Remote, Zagreb, Croatia"
             ></v-text-field>
           </div>
-          <div>
-            <div class="text-field-div">
-              <p class="poppins-medium-italic">Payment</p>
 
-              <v-text-field
-                class="text-field-design"
-                label="Payment"
-                v-model="jobData.payment"
-                outlined
-                placeholder="e.g., 3000€/month, 40€/h"
-              ></v-text-field>
-            </div>
-            <div class="text-field-div">
-              <p class="poppins-medium-italic">Duration</p>
+          <div class="text-field-div">
+            <p class="poppins-medium-italic">Duration</p>
 
-              <v-text-field
-                class="text-field-design"
-                label="Duration"
-                v-model="jobData.duration"
-                outlined
-                placeholder="e.g., 2 days, 6 weeks"
-              ></v-text-field>
-            </div>
+            <v-text-field
+              class="text-field-design"
+              label="Duration"
+              v-model="jobData.duration"
+              outlined
+              placeholder="e.g., 2 days, 6 weeks"
+            ></v-text-field>
           </div>
+
           <div class="text-field-div">
             <p class="poppins-medium-italic">Qualifications</p>
 
@@ -153,18 +152,6 @@
               placeholder="e.g., Office based, flexible hours"
             ></v-text-field>
           </div>
-
-          <div class="text-field-div">
-            <p class="poppins-medium-italic">Created by</p>
-
-            <v-text-field
-              class="text-field-design"
-              readonly
-              v-model="jobData.createdBy"
-              :disabled="!isEditing"
-              placeholder="Job admin"
-            ></v-text-field>
-          </div>
         </v-card-text>
         <v-card-actions class="d-flex justify-center align-center">
           <v-btn
@@ -210,7 +197,18 @@
         </v-dialog>
       </v-form>
     </v-card>
-    <div v-else class="text-center">Loading job details...</div>
+
+    <v-snackbar
+      v-model="showSnackbar"
+      :timeout="4000"
+      :color="snackbarColor"
+      elevation="24"
+    >
+      {{ snackbarMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="showSnackbar = false">Close</v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -218,7 +216,23 @@
 export default {
   data() {
     return {
-      jobData: {},
+      jobData: {
+        title: "",
+        category: "",
+        description: "",
+        location: "",
+        payment: "",
+        duration: "",
+        qualifications: "",
+        equipmentNeeded: "",
+        contactInfo: "",
+        applicationDeadline: "",
+        workConditions: "",
+        createdBy: "",
+        jobType: "One-time",
+        paymentMethod: "Integrated PayPal",
+      },
+      isEditing: false,
       openDialog: false,
       showSnackbar: false,
       snackbarMessage: "",
@@ -233,38 +247,43 @@ export default {
       try {
         const userSessionData = sessionStorage.getItem("user");
         if (userSessionData) {
-          const user = JSON.parse(userSessionData);
-          const userId = user._id;
+          const employer = JSON.parse(userSessionData);
+          const employerId = employer._id;
+          this.jobData.createdBy = `${employer.firstName} ${employer.lastName}`;
           const jobRequestData = {
-            employerId: userId,
+            employerId: employerId,
             ...this.jobData,
           };
-          console.log("Frontend: ", this.jobData);
           const response = await this.$apiClient.post(
             "http://localhost:3000/api/employer/jobs/create",
             jobRequestData
           );
-          if (response && response.status === 201) {
-            this.showSnackbar = true;
-            this.snackbarMessage = "Job successfully posted!";
+
+          console.log("Response servera: ", response);
+          console.log("Response servera: ", response.status);
+          if (response && response.status === 201 && response.data.success) {
+            this.snackbarMessage = "Job successfully created";
             this.snackbarColor = "success";
+            this.showSnackbar = true;
             console.log("Job posted");
             this.openDialog = false;
           } else {
-            console.log("Job not posted");
             this.snackbarMessage = "Please try again.";
             this.snackbarColor = "error";
+            this.showSnackbar = true;
             this.openDialog = false;
           }
         } else {
+          this.showSnackbar = true;
           this.snackbarMessage = "Session data not found. Please log in.";
           this.snackbarColor = "error";
-          this.showSnackbar = true;
+          this.openDialog = false;
         }
       } catch (error) {
+        this.showSnackbar = true;
         this.snackbarMessage = "An error occurred.";
         this.snackbarColor = "error";
-        this.showSnackbar = true;
+        this.openDialog = false;
       }
     },
   },
@@ -273,7 +292,7 @@ export default {
 
 <style>
 .job-card {
-  width: 700px;
+  width: 800px;
   background-color: #f5f5f5;
   margin: 50px auto;
 }
