@@ -15,6 +15,7 @@
               v-model="jobData.title"
               outlined
               placeholder="e.g., Senior Web Developer"
+              :rules="[rule.required, rule.minLength, rule.maxLength]"
             ></v-text-field>
           </div>
           <div class="text-field-div">
@@ -25,6 +26,12 @@
               v-model="jobData.category"
               outlined
               placeholder="e.g., Tech Industry"
+              :rules="[
+                rule.required,
+                rule.name,
+                rule.minLength,
+                rule.maxLength,
+              ]"
             ></v-text-field>
           </div>
           <div class="text-field-div">
@@ -35,6 +42,7 @@
               label="Description"
               v-model="jobData.description"
               placeholder="Briefly describe the job role and responsibilities"
+              :rules="[rule.required, rule.minLength]"
             ></v-text-field>
           </div>
 
@@ -46,6 +54,7 @@
               v-model="jobData.jobType"
               :disabled="!isEditing"
               value="One-time"
+              :rules="[rule.required, rule.name]"
             ></v-text-field>
           </div>
 
@@ -58,6 +67,7 @@
               v-model="jobData.payment"
               outlined
               placeholder="e.g., 3000€/month, 40€/h"
+              :rules="[rule.required, rule.payment]"
             ></v-text-field>
           </div>
           <div class="text-field-div">
@@ -80,6 +90,7 @@
               v-model="jobData.location"
               outlined
               placeholder="e.g., Remote, Zagreb, Croatia"
+              :rules="[rule.required, rule.name]"
             ></v-text-field>
           </div>
 
@@ -92,6 +103,7 @@
               v-model="jobData.duration"
               outlined
               placeholder="e.g., 2 days, 6 weeks"
+              :rules="[rule.required]"
             ></v-text-field>
           </div>
 
@@ -104,6 +116,7 @@
               v-model="jobData.qualifications"
               outlined
               placeholder="e.g., 5+ years in web development, React proficiency"
+              :rules="[rule.required]"
             ></v-text-field>
           </div>
           <div class="text-field-div">
@@ -115,6 +128,7 @@
               v-model="jobData.equipmentNeeded"
               outlined
               placeholder="e.g., Yes, No, Laptop required"
+              :rules="[rule.required]"
             ></v-text-field>
           </div>
           <div>
@@ -127,6 +141,7 @@
                 v-model="jobData.contactInfo"
                 outlined
                 placeholder="e.g., hr@example.com, +3851234567"
+                :rules="[rule.required]"
               ></v-text-field>
             </div>
             <div class="text-field-div">
@@ -137,7 +152,8 @@
                 label="Application Deadline"
                 v-model="jobData.applicationDeadline"
                 outlined
-                placeholder="e.g., 25.09.2024"
+                placeholder="e.g., 25.09.2024, None"
+                :rules="[rule.required, rule.date]"
               ></v-text-field>
             </div>
           </div>
@@ -150,6 +166,7 @@
               v-model="jobData.workConditions"
               outlined
               placeholder="e.g., Office based, flexible hours"
+              :rules="[rule.required]"
             ></v-text-field>
           </div>
         </v-card-text>
@@ -237,6 +254,23 @@ export default {
       showSnackbar: false,
       snackbarMessage: "",
       snackbarColor: "",
+      rule: {
+        name: (v) =>
+          /^[A-Za-zŠĐČĆŽšđčćž ]+$/.test(v) || "Must not contain numbers",
+        payment: (v) =>
+          /^\d+(\.\d+)?\s*(\$|€)\/(hr|h|day|week|month)$/.test(v) ||
+          "Invalid format. You can use hr, h, day, week, month",
+        date: (v) => {
+          if (v === "None") return true;
+          return (
+            /^[0-3][0-9]\.[0-1][0-9]\.\d{4}$/.test(v) ||
+            "Date must be in format dd.mm.yyyy"
+          );
+        },
+        minLength: (v) => v.length >= 2 || "Must be at least 2 characters long",
+        maxLength: (v) =>
+          v.length <= 50 || "Must be at most 50 characters long",
+      },
     };
   },
   methods: {

@@ -51,5 +51,6 @@ export default {
 }
 .card-style {
   width: 350px;
+  padding: 20px;
 }
 </style>

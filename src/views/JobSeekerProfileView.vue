@@ -135,7 +135,7 @@ export default {
     AccountSettingsComponent,
   },
   mounted() {
-    this.loadBiographyData();
+    this.loadAllData();
   },
   methods: {
     async handleUserData(userData) {
@@ -212,10 +212,27 @@ export default {
           });
       }
     },
-    loadBiographyData() {
+    loadAllData() {
       const user = JSON.parse(sessionStorage.getItem("user"));
-      if (user && user.Biography) {
-        this.aboutMe = user.Biography;
+      if (user) {
+        if (user.Biography) {
+          this.aboutMe = user.Biography;
+        }
+        if (user.Education) {
+          this.educationData = user.Education;
+        }
+        if (user.WorkExperience) {
+          this.workData = user.WorkExperience;
+        }
+        if (user.Languages) {
+          this.languagesData = user.Languages;
+        }
+        if (user.HobbiesAndInterests) {
+          this.hobbiesAndInterestsData = user.HobbiesAndInterests;
+        }
+        if (user.Skills) {
+          this.skillsData = user.Skills;
+        }
       }
     },
   },
