@@ -66,6 +66,16 @@
       v-if="!isUnauthorizedRoute"
     >
       <v-btn
+        v-if="currentUser"
+        text
+        color="#FFFFFF"
+        variant="plain"
+        size="small"
+        @click="getProfileRoute"
+      >
+        Profile
+      </v-btn>
+      <v-btn
         text
         to="/job-seeker/jobs"
         color="#FFFFFF"
@@ -74,6 +84,16 @@
         v-if="currentUser && currentUser.role === 'job seeker'"
         >Find Jobs</v-btn
       >
+      <v-btn
+        text
+        to="/job-seeker/jobs/applied"
+        color="#FFFFFF"
+        variant="plain"
+        size="small"
+        v-if="currentUser && currentUser.role === 'job seeker'"
+      >
+        My Jobs
+      </v-btn>
       <v-btn
         text
         to="/employer/jobs/create"
@@ -92,16 +112,6 @@
         v-if="currentUser && currentUser.role === 'employer'"
         >My Jobs</v-btn
       >
-      <v-btn
-        v-if="currentUser"
-        text
-        color="#FFFFFF"
-        variant="plain"
-        size="small"
-        @click="getProfileRoute"
-      >
-        Profile
-      </v-btn>
       <v-btn icon v-if="currentUser" class="chat-icon-btn">
         <v-icon size="large">mdi-bell-outline</v-icon>
       </v-btn>

@@ -33,7 +33,10 @@ export default {
   },
   methods: {
     showJobDetails(jobId) {
-      this.$router.push({ name: "JobDetails", params: { id: jobId } });
+      this.$router.push({
+        name: "JobSeekerJobDetailsView",
+        params: { id: jobId },
+      });
     },
   },
 };

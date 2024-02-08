@@ -85,7 +85,6 @@ export default {
         "Driving",
       ],
       locations: cities,
-
       selectedLocation: null,
       jobAds: [{}],
       color: "#642b73",
@@ -96,13 +95,6 @@ export default {
   },
   mounted() {
     this.fetchJobs();
-  },
-  computed: {
-    filteredJobs() {
-      return this.jobAds.filter((job) =>
-        job.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    },
   },
   methods: {
     selectLocation(location) {
@@ -153,7 +145,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 120vh;
 }
 .row-class {
   margin: 40px 0px 50px 0px !important;

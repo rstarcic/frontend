@@ -260,6 +260,7 @@ export default {
         );
         if (response && response.data) {
           this.job = response.data.jobDetails;
+          console.log("Details:", response.data.jobDetails);
         } else {
           console.log("No job details found for the provided job ID.");
           this.job = null;

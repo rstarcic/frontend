@@ -7,6 +7,7 @@ import JobSeekerProfileView from "../views/JobSeekerProfileView.vue";
 import EmployerProfileView from "../views/EmployerProfileView.vue";
 import JobSeekerJobsView from "../views/JobSeekerJobsView.vue";
 import SeekerJobDetailsView from "../views/SeekerJobDetailsView.vue";
+import JobSeekerJobListView from "../views/JobSeekerJobListView.vue";
 import EmployerCreateJobsView from "../views/EmployerCreateJobsView.vue";
 import EmployerJobListView from "../views/EmployerJobListView.vue";
 import EmployerJobDetailsView from "../views/EmployerJobDetailsView.vue"
@@ -53,8 +54,15 @@ const routes = [
   },
   {
     path: "/job-seeker/jobs/:id",
-    name: "JobDetails",
+    name: "JobSeekerJobDetailsView",
     component: SeekerJobDetailsView,
+    meta: { requiresRole: "job seeker" },
+    props: true,
+  },
+  {
+    path: "/job-seeker/jobs/applied",
+    name: "SeeekerJobListView",
+    component: JobSeekerJobListView,
     meta: { requiresRole: "job seeker" },
     props: true,
   },
@@ -73,6 +81,7 @@ const routes = [
     path: "/employer/jobs/:id",
     name: "EmployerJobDetailsView",
     component: EmployerJobDetailsView,
+     meta: { requiresRole: "employer" },
     props: true,
   },
   {
