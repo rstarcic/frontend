@@ -120,7 +120,7 @@ export default {
       const id = this.$route.params.id;
       try {
         const response = await this.$apiClient.get(
-          `http://localhost:3000/api/job-seeker/jobs/${id}`
+          `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/jobs/${id}`
         );
         if (response && response.data) {
           this.job = response.data.jobDetails;
@@ -141,7 +141,7 @@ export default {
           const jobSeeker = JSON.parse(userSessionData);
           const jobSeekerId = jobSeeker._id;
           const response = await this.$apiClient.patch(
-            `http://localhost:3000/api/job-seeker/jobs/${id}`,
+            `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/jobs/${id}`,
             { jobSeekerId }
           );
           if (response && response.status === 201 && response.data.success) {

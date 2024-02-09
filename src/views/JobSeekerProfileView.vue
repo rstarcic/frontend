@@ -148,7 +148,7 @@ export default {
         console.log("userData being sent:", updatedUserData);
         await this.$apiClient
           .patch(
-            "http://localhost:3000/api/job-seeker/profile",
+            `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/profile`,
             updatedUserData
           )
           .then((response) => {
@@ -201,7 +201,7 @@ export default {
         };
         await this.$apiClient
           .post(
-            "http://localhost:3000/api/job-seeker/profile/edit",
+            `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/profile/edit`,
             profileData
           )
           .then((response) => {

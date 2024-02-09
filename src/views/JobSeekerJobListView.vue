@@ -97,7 +97,7 @@ export default {
           const jobSeeker = JSON.parse(userSessionData);
           const jobSeekerId = jobSeeker._id;
           const response = await this.$apiClient.get(
-            `http://localhost:3000/api/job-seeker/jobs/applied?jobSeekerId=${jobSeekerId}`
+            `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/jobs/applied?jobSeekerId=${jobSeekerId}`
           );
 
           console.log("Response: ", response);

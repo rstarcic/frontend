@@ -99,7 +99,7 @@ export default {
         password: this.password,
       };
       this.$apiClient
-        .post("http://localhost:3000/api/auth/login", userData)
+        .post(`${process.env.VUE_APP_SERVER_URL}/api/auth/login`, userData)
         .then((response) => {
           console.log("Server response:", response);
           localStorage.setItem("token", response.data.token);

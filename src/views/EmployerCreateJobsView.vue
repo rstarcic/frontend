@@ -297,7 +297,7 @@ export default {
             ...this.jobData,
           };
           const response = await this.$apiClient.post(
-            "http://localhost:3000/api/employer/jobs/create",
+            `${process.env.VUE_APP_SERVER_URL}/api/employer/jobs/create`,
             jobRequestData
           );
 

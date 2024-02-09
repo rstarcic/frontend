@@ -86,11 +86,9 @@ export default {
           };
           let apiEndpointBasedOnUserRole;
           if (role === "job seeker") {
-            apiEndpointBasedOnUserRole =
-              "http://localhost:3000/api/job-seeker/profile/settings";
+            apiEndpointBasedOnUserRole = `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/profile/settings`;
           } else if (role === "employer") {
-            apiEndpointBasedOnUserRole =
-              "http://localhost:3000/api/employer/profile/settings";
+            apiEndpointBasedOnUserRole = `${process.env.VUE_APP_SERVER_URL}/api/employer/profile/settings`;
           } else {
             throw new Error("Invalid user type.");
           }
