@@ -33,20 +33,30 @@
               v-if="errorMessage"
               color="error"
               icon="$error"
-              title="Login failed"
               class="alert-class"
-              >{{ errorMessage }}</v-alert
             >
-
-            <div class="forgot-password-class">
-              <v-btn
-                class="forgot-password-btn"
-                variant="plain"
-                color="#f7f8f9"
-                @click="openPasswordResetDialog"
-                >Forgot password?</v-btn
+              <template #title>
+                <span
+                  style="
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #f2f2f2;
+                  "
+                  >Login failed</span
+                >
+              </template>
+              <span
+                style="
+                  font-family: 'Poppins', sans-serif;
+                  font-size: 14px;
+                  font-style: italic;
+                  color: #f2f2f2;
+                "
+                >{{ errorMessage }}</span
               >
-            </div>
+            </v-alert>
+
             <div class="sign-in-class">
               <v-btn
                 class="sign-in-btn"
@@ -63,43 +73,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-dialog
-      v-model="isPasswordResetDialogOpen"
-      max-width="450px"
-      outlined
-      persistent
-      class="dialog-class"
-    >
-      <v-card class="card-class">
-        <v-card-title class="login-text">Reset Password</v-card-title>
-        <v-card-subtitle
-          >We'll assist you in resetting your password. You'll receive an email
-          shortly.</v-card-subtitle
-        >
-        <v-card-text>
-          <v-form>
-            <v-text-field
-              v-model="resetEmail"
-              class="text-field email-field"
-              type="email"
-              dense
-              outlined
-              label="Email"
-              placeholder="Enter your email"
-            ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="reset-email-btn" text @click="sendPasswordResetEmail"
-            >Send Reset Email</v-btn
-          >
-          <v-btn color="red" text @click="closePasswordResetDialog"
-            >Cancel</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
@@ -153,11 +126,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .login-card {
   width: 400px;
-  padding: 16px;
+  padding: 10px;
   background-color: #642b73 !important;
+  margin-top: 50px;
 }
 
 .text-field {
@@ -172,14 +146,17 @@ export default {
 }
 .forgot-password-class,
 .sign-in-class {
-  margin: 20px 0px 25px 0px;
-}
-.forgot-password-btn {
-  font-size: 10px !important;
+  margin: 50px 0px 25px 0px;
 }
 
 .alert-class {
   margin-top: 50px;
-  width: 250px;
+  width: 300px;
+}
+.sign-in-btn {
+  width: 150px !important;
+  height: 40px !important;
+  background-color: #874faa !important;
+  color: #f9f9f9;
 }
 </style>

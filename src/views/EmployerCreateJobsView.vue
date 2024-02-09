@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-center">
-    <v-card class="job-card">
+    <v-card class="job-card-design">
       <v-form @submit.prevent="confirmAndPostJob">
         <v-card-title class="form-title"> Job Information </v-card-title>
         <v-card-subtitle class="form-subtitle"
@@ -20,19 +20,20 @@
           </div>
           <div class="text-field-div">
             <p class="poppins-medium-italic">Category</p>
-            <v-text-field
+            <v-autocomplete
               class="text-field-design"
               label="Category"
               v-model="jobData.category"
               outlined
               placeholder="e.g., Tech Industry"
+              :items="categoryItems"
               :rules="[
                 rule.required,
                 rule.name,
                 rule.minLength,
                 rule.maxLength,
               ]"
-            ></v-text-field>
+            ></v-autocomplete>
           </div>
           <div class="text-field-div">
             <p class="poppins-medium-italic">Description</p>
@@ -230,6 +231,7 @@
 </template>
 
 <script>
+import { categories } from "../utils/category.js";
 export default {
   data() {
     return {
@@ -271,7 +273,13 @@ export default {
         maxLength: (v) =>
           v.length <= 50 || "Must be at most 50 characters long",
       },
+      categories: categories,
     };
+  },
+  computed: {
+    categoryItems() {
+      return [...this.categories, this.jobData.category];
+    },
   },
   methods: {
     submitJobPosting() {
@@ -325,9 +333,9 @@ export default {
 </script>
 
 <style>
-.job-card {
+.job-card-design {
   width: 800px;
-  background-color: #f5f5f5;
+  background-color: #f5f5f5 !important;
   margin: 50px auto;
 }
 
@@ -360,6 +368,7 @@ export default {
   font-weight: 500;
   font-style: italic;
   margin-bottom: 5px !important;
+  margin-left: 20px;
 }
 
 .text-field-div {

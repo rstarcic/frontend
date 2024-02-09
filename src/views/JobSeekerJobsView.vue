@@ -1,12 +1,12 @@
 <template>
-  <div class="d-flex align-center">
+  <div class="main align-center">
     <v-autocomplete
       v-model="searchQuery"
       class="search-bar"
       auto-select-first
       density="comfortable"
-      item-props
-      placeholder="Search jobs"
+      :items="searchOptions"
+      label="Search jobs by location or category"
       append-inner-icon="mdi-magnify"
       rounded
       theme="light"
@@ -37,7 +37,7 @@
         </v-col>
       </v-row>
     </div>
-    <div class="d-flex">
+    <div class="job-card-container d-flex justify-center align-center">
       <v-row class="align-center">
         <v-row justify="center" class="job-card-row">
           <v-col
@@ -58,32 +58,12 @@
 <script>
 import JobCardComponent from "../components/JobCardComponent.vue";
 import { cities } from "../utils/location.js";
+import { categories } from "../utils/category.js";
 export default {
   data() {
     return {
       searchQuery: "",
-      categories: [
-        "Cleaning",
-        "Home Repairs",
-        "Gardening",
-        "Moving",
-        "Childcare",
-        "Pet Services",
-        "Personal Trainer",
-        "Digital Services",
-        "Design",
-        "Web Development",
-        "Writing",
-        "Content Editing",
-        "Translation",
-        "Event Planning",
-        "Photography",
-        "Catering",
-        "Delivery",
-        "Tutoring",
-        "Consulting",
-        "Driving",
-      ],
+      categories: categories,
       locations: cities,
       selectedLocation: null,
       jobAds: [{}],
@@ -92,6 +72,16 @@ export default {
   },
   components: {
     JobCardComponent,
+  },
+  watch: {
+    searchQuery() {
+      this.fetchJobs();
+    },
+  },
+  computed: {
+    searchOptions() {
+      return [...this.locations, ...this.categories];
+    },
   },
   mounted() {
     this.fetchJobs();
@@ -103,13 +93,15 @@ export default {
     },
     async fetchJobs() {
       try {
-        let location = "";
+        let queryParam = "";
 
         if (this.selectedLocation) {
-          location = `?location=${this.selectedLocation}`;
+          queryParam = `?location=${this.selectedLocation}`;
+        } else if (this.searchQuery) {
+          queryParam = `${queryParam ? "&" : "?"}category=${this.searchQuery}`;
         }
         const response = await this.$apiClient.get(
-          `http://localhost:3000/api/job-seeker/jobs${location}`
+          `http://localhost:3000/api/job-seeker/jobs${queryParam}`
         );
         if (response.data && response.status === 200) {
           const transformedData = response.data.allJobs.map((job) => ({
@@ -141,12 +133,13 @@ export default {
   height: 40px;
 }
 
-.d-flex {
+.main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 120vh;
+  margin-top: 20px;
 }
+
 .row-class {
   margin: 40px 0px 50px 0px !important;
 }
@@ -162,11 +155,17 @@ export default {
 }
 
 .job-card {
-  margin: 20px;
+  margin: 50px;
   padding-left: 20px;
   background-color: transparent;
 }
 .job-card-row {
   margin-bottom: 5px !important;
+}
+
+@media screen and (max-width: 960px) {
+  .job-card-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
 }
 </style>

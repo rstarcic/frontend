@@ -182,8 +182,27 @@
             :key="applicant.id"
           >
             <v-card class="applicant-card">
-              <v-img :src="applicant.image" height="150px"></v-img>
-              <v-card-title>{{ applicant.name }}</v-card-title>
+              <v-avatar color="#643f7d" size="150" class="mx-auto">
+                <span
+                  class="white--text headline"
+                  style="
+                    font-family: 'Poppins', sans-serif;
+                    font-weight: 600;
+                    font-size: 30px;
+                    font-style: italic;
+                  "
+                >
+                  {{
+                    applicant.firstName.charAt(0) +
+                    ". " +
+                    applicant.lastName.charAt(0) +
+                    ". "
+                  }}
+                </span>
+              </v-avatar>
+              <v-card-title>{{
+                applicant.firstName + " " + applicant.lastName
+              }}</v-card-title>
               <v-card-subtitle>{{ applicant.email }}</v-card-subtitle>
               <v-card-actions>
                 <v-btn text>View profile</v-btn>
@@ -230,19 +249,7 @@ export default {
         createdAt: "",
       },
       isEditing: false,
-      applicants: [
-        {
-          name: "Marko Marković",
-          email: "marko@example.com",
-          profile: "profile_link",
-        },
-        { name: "Ana Anić", email: "ana@example.com", profile: "profile_link" },
-        {
-          name: "Luka Lukić",
-          email: "luka@example.com",
-          profile: "profile_link",
-        },
-      ],
+      applicants: [],
       showSnackbar: false,
       snackbarMessage: "",
       snackbarColor: "",
@@ -261,6 +268,9 @@ export default {
         if (response && response.data) {
           this.job = response.data.jobDetails;
           console.log("Details:", response.data.jobDetails);
+          console.log("Details:", response.data.jobDetails.applicantDetails);
+          const applicantsInfo = response.data.jobDetails.applicantDetails;
+          this.applicants.push(...applicantsInfo);
         } else {
           console.log("No job details found for the provided job ID.");
           this.job = null;
@@ -381,7 +391,7 @@ export default {
 
 .applicant-card {
   width: 200px;
-  margin: 30px 30px;
+  margin: 30px 10px;
 }
 .v-text-field .v-label,
 .v-text-field input {

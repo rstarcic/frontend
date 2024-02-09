@@ -256,6 +256,8 @@ export default {
   height: 100px;
   width: 100%;
   margin-top: 50px;
+  position: fixed;
+  bottom: 0px;
 }
 
 .social-media-buttons {

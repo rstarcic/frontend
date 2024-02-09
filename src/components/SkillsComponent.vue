@@ -11,7 +11,7 @@
           ></v-text-field> </v-col
       ></v-row>
 
-      <v-row justify="center">
+      <v-row no-gutters class="skill-btns">
         <v-col cols="6">
           <v-btn
             class="add-btn"
@@ -19,7 +19,9 @@
             color="#FFFFFF"
             @click="addSkill"
             >Add Skill</v-btn
-          >
+          ></v-col
+        >
+        <v-col cols="6">
           <v-btn
             class="delete-btn"
             variant="plain"
@@ -75,5 +77,8 @@ export default {
   height: 48px;
   color: #000000;
 }
+.skill-btns {
+  display: flex;
+  width: 50%;
+}
 </style>
-  

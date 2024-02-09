@@ -10,7 +10,7 @@
             variant="underlined"
           ></v-text-field> </v-col
       ></v-row>
-      <v-row justify="center">
+      <v-row no-gutters class="hobbie-btns">
         <v-col cols="6">
           <v-btn
             class="add-btn"
@@ -19,6 +19,8 @@
             @click="addHobby"
             >Add Hobby</v-btn
           >
+        </v-col>
+        <v-col cols="6">
           <v-btn
             class="delete-btn"
             variant="plain"
@@ -67,7 +69,7 @@ export default {
 };
 </script>
   
-  <style>
+  <style scoped>
 .text-field-design {
   font-size: 16px;
   width: 70%;
@@ -79,6 +81,11 @@ export default {
 .delete-btn {
   background-color: #a33594 !important;
   color: #f9f9f9;
+}
+
+.hobbie-btns {
+  display: flex;
+  width: 60%;
 }
 </style>
   

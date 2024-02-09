@@ -183,22 +183,28 @@
               </v-col>
             </v-row>
           </v-form>
-          <v-card-actions>
-            <v-btn
-              class="btn-design"
-              variant="plain"
-              elevation="4"
-              :disabled="!isFormValid"
-              @click="signUp"
-              >SIGN UP</v-btn
-            >
-            <v-btn
-              class="btn-design"
-              variant="plain"
-              elevation="4"
-              @click="clearForm"
-              >Clear</v-btn
-            >
+          <v-card-actions class="d-flex align-center justify-center">
+            <v-row justify="center">
+              <v-col cols="6" sm="3">
+                <v-btn
+                  class="btn-design"
+                  variant="plain"
+                  elevation="4"
+                  :disabled="!isFormValid"
+                  @click="signUp"
+                  >SIGN UP</v-btn
+                >
+              </v-col>
+              <v-col cols="6" sm="3">
+                <v-btn
+                  class="btn-design"
+                  variant="plain"
+                  elevation="4"
+                  @click="clearForm"
+                  >Clear</v-btn
+                >
+              </v-col>
+            </v-row>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -397,7 +403,7 @@ export default {
 }
 .text-field-design {
   font-size: 12px;
-  width: 300px;
+  max-width: 300px;
   height: 48px;
   margin-bottom: 50px;
   color: #000000;
@@ -405,12 +411,17 @@ export default {
 
 .subtitle-color {
   color: #f7f8f9;
-  margin-left: 10px;
+  margin-left: 25px;
   margin-bottom: 10px;
 }
 .btn-design {
   color: #f7f8f9;
-  margin-left: 20px;
+}
+@media screen and (max-width: 600px) {
+  .text-field-design {
+    width: 100%;
+    max-width: none;
+  }
 }
 </style>
   

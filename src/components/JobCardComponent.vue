@@ -1,6 +1,6 @@
 <template>
   <v-card class="card-style">
-    <v-card-title>{{ job.title }}</v-card-title>
+    <v-card-title class="card-title">{{ job.title }}</v-card-title>
     <v-card-text>
       <v-row v-for="(detail, index) in job.details" :key="index">
         <v-col cols="12">
@@ -12,7 +12,12 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="white" text variant="plain" @click="showJobDetails(job.id)"
+      <v-btn
+        color="white"
+        text
+        variant="plain"
+        :disabled="isDisabledButton"
+        @click="showJobDetails(job.id)"
         >Show details</v-btn
       >
     </v-card-actions>
@@ -29,6 +34,11 @@ export default {
     iconColor: {
       type: String,
       default: "white",
+    },
+  },
+  computed: {
+    isDisabledButton() {
+      return this.$route.path === "/";
     },
   },
   methods: {
@@ -55,5 +65,8 @@ export default {
 .card-style {
   width: 350px;
   padding: 20px;
+}
+.card-title {
+  margin-bottom: 15px;
 }
 </style>
