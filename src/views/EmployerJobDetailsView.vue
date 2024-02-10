@@ -262,9 +262,7 @@ export default {
   methods: {
     async fetchJobDetails(id) {
       try {
-        const response = await this.$apiClient.get(
-          `${process.env.VUE_APP_SERVER_URL}/api/employer/jobs/${id}`
-        );
+        const response = await this.$apiClient.get(`/api/employer/jobs/${id}`);
         if (response && response.data) {
           this.job = response.data.jobDetails;
           console.log("Details:", response.data.jobDetails);
@@ -284,7 +282,7 @@ export default {
       try {
         const id = this.$route.params.id;
         const response = await this.$apiClient.put(
-          `${process.env.VUE_APP_SERVER_URL}/api/employer/jobs/${id}`,
+          `/api/employer/jobs/${id}`,
           this.job
         );
         if (response && response.data) {
@@ -313,7 +311,7 @@ export default {
       try {
         const id = this.$route.params.id;
         const response = await this.$apiClient.delete(
-          `${process.env.VUE_APP_SERVER_URL}/api/employer/jobs/${id}`
+          `/api/employer/jobs/${id}`
         );
         if (response && response.data) {
           this.showSnackbar = true;

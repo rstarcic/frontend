@@ -101,7 +101,7 @@ export default {
           queryParam = `${queryParam ? "&" : "?"}category=${this.searchQuery}`;
         }
         const response = await this.$apiClient.get(
-          `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/jobs${queryParam}`
+          `/api/job-seeker/jobs${queryParam}`
         );
         if (response.data && response.status === 200) {
           const transformedData = response.data.allJobs.map((job) => ({

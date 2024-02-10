@@ -147,10 +147,7 @@ export default {
         const updatedUserData = { ...userData, role };
         console.log("userData being sent:", updatedUserData);
         await this.$apiClient
-          .patch(
-            `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/profile`,
-            updatedUserData
-          )
+          .patch(`/api/job-seeker/profile`, updatedUserData)
           .then((response) => {
             console.log("Server response:", response);
             sessionStorage.setItem("user", JSON.stringify(response.data.user));
@@ -200,10 +197,7 @@ export default {
           skills: this.skillsData,
         };
         await this.$apiClient
-          .post(
-            `${process.env.VUE_APP_SERVER_URL}/api/job-seeker/profile/edit`,
-            profileData
-          )
+          .post(`/api/job-seeker/profile/edit`, profileData)
           .then((response) => {
             console.log("Profile successfully updated", response);
           })

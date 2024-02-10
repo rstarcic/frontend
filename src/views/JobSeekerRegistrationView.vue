@@ -341,10 +341,7 @@ export default {
         postalCode: this.postalCode,
       };
       this.$apiClient
-        .post(
-          `${process.env.VUE_APP_SERVER_URL}/api/auth/signup/job-seeker`,
-          userData
-        )
+        .post(`/api/auth/signup/job-seeker`, userData)
         .then((response) => {
           console.log("Server response:", response);
           localStorage.setItem("token", response.data.token);

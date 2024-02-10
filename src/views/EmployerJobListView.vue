@@ -88,7 +88,7 @@ export default {
           const employer = JSON.parse(userSessionData);
           const employerId = employer._id;
           const response = await this.$apiClient.get(
-            `${process.env.VUE_APP_SERVER_URL}/api/employer/jobs?employerId=${employerId}`
+            `/api/employer/jobs?employerId=${employerId}`
           );
 
           if (response.status === 200) {

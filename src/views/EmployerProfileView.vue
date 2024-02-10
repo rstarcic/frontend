@@ -55,10 +55,7 @@ export default {
         const updatedUserData = { ...userData, role };
         console.log("userData being sent:", updatedUserData);
         this.$apiClient
-          .patch(
-            `${process.env.VUE_APP_SERVER_URL}/api/employer/profile`,
-            updatedUserData
-          )
+          .patch(`/api/employer/profile`, updatedUserData)
           .then((response) => {
             console.log("Server response:", response);
             sessionStorage.setItem("user", JSON.stringify(response.data.user));
