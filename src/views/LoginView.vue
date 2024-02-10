@@ -94,23 +94,14 @@ export default {
       this.isPasswordResetDialogOpen = false;
     },
     signIn() {
-      console.log("Environment URL:", process.env.VUE_APP_SERVER_URL);
       const userData = {
         email: this.email,
         password: this.password,
       };
-      console.log(
-        "Request URL:",
-        `${process.env.VUE_APP_SERVER_URL}/api/auth/login`
-      );
       this.$apiClient
         .post(`/api/auth/login`, userData)
         .then((response) => {
           console.log("Server response:", response);
-          console.log(
-            "Request URL:",
-            `${process.env.VUE_APP_SERVER_URL}/api/auth/login`
-          );
           localStorage.setItem("token", response.data.token);
           sessionStorage.setItem("user", JSON.stringify(response.data.user));
           const userRole = response.data.user.role;

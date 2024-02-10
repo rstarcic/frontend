@@ -5,7 +5,7 @@ import vuetify from './plugins/vuetify.js'
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: `${process.env.VUE_APP_SERVER_URL}`, 
+    baseURL: process.env.VUE_APP_SERVER_URL, 
     timeout: 600000,
 });
 
