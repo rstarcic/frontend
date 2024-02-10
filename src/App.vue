@@ -130,24 +130,6 @@
               class="logo-footer"
             />
           </v-col>
-          <v-col class="text-center icons-col">
-            <h4>Find Us On Social Media:</h4>
-            <div>
-              <v-btn
-                v-for="icon in icons"
-                :key="icon.name"
-                color="white"
-                text
-                class="social-media-buttons"
-                size="small"
-                fab
-              >
-                <v-icon :size="25" :color="icon.color" class="rounded-icon">{{
-                  icon.name
-                }}</v-icon>
-              </v-btn>
-            </div>
-          </v-col>
         </v-row>
       </v-container>
     </v-footer>
@@ -160,12 +142,6 @@ export default {
   data: () => ({
     currentUser: null,
     items: [{ title: "Job seeker" }, { title: "Employer" }],
-    icons: [
-      { name: "mdi-facebook", color: "#3b5998" },
-      { name: "mdi-twitter", color: "#1DA1F2" },
-      { name: "mdi-linkedin", color: "#0A66C2" },
-      { name: "mdi-instagram", color: "#E1306C" },
-    ],
   }),
   methods: {
     loadCurrentUser() {
@@ -248,16 +224,20 @@ export default {
 .logo-footer {
   width: 150px;
   height: max-content;
-  margin-left: 0px;
-  margin-top: 30px;
+  margin: 0 auto;
+  margin-top: 0;
+}
+.logo-col {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
 }
 
 .footer-bg {
-  height: 100px;
+  position: absolute;
   width: 100%;
-  margin-top: 50px;
-  position: fixed;
-  bottom: 0px;
+  bottom: 0;
+  left: 0;
 }
 
 .social-media-buttons {
