@@ -68,27 +68,6 @@ import JobCardComponent from "../components/JobCardComponent.vue";
 export default {
   name: "HomeView",
   data: () => ({
-    activeStep: 1,
-    features: [
-      {
-        title: "Post a Gig",
-        text: "Posting a job on Jobify is both free and effortless. Just provide a title and budget and competitive bids come within minutes.",
-        icon: "mdi-briefcase",
-      },
-      {
-        title: "Choose your performer",
-        text: "We believe that every task deserves the perfect performer. Whether your project is big or small, simple or complex, we've got a diverse pool of talented job seekers ready to bring your ideas to life.",
-      },
-      {
-        title: "Secure payments",
-        text: "Rest assured, you only pay for the work once it's been successfully completed, and you're fully content with the results. ",
-      },
-      {
-        title: "Generate Contract Documents",
-        text: "Jobify allows you to generate contract documents, making it easier to formalize your working agreements.",
-      },
-    ],
-    featureTitles: ["Step 1", "Step 2", "Step 3"],
     jobAds: [
       {
         id: 1,
@@ -185,11 +164,6 @@ export default {
   }),
   components: {
     JobCardComponent,
-  },
-  methods: {
-    isActiveStep(step) {
-      return step === this.activeStep;
-    },
   },
 };
 </script>
