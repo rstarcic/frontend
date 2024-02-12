@@ -1,24 +1,34 @@
-# frontend
+# Frontend web aplikacije Jobify
+- Tim: Roberta Starčić
+- Fakultet informatike u Puli (https://fipu.unipu.hr/)
+- Kolegij: Web aplikacije (https://fiputreca.notion.site/fiputreca/Web-aplikacije-7ba8350d498546a78812399024edac44)
+- Mentor: doc. dr. sc. Nikola Tanković (https://fiputreca.notion.site/fiputreca/Kontakt-stranica-875574d1b92248b1a8e90dae52cd29a9)
+### Funkcionalnosti aplikacije
+Jobify aplikacija dizajnirana za povezivanje poslodavaca i tražitelja posla.
+**Funkcionalnosti poslodavaca (Employer-a)**
+- Registracija i Prijava
+- Pregled i update profila
+- Kreiranje, update i brisanje poslova
+- Pregled profila kandidata
+- Generiranje Ugovora o Djelu
+- Isplata obavljenog posla
 
-## Project setup
-```
-npm install
-```
+**Trenutni Napredak**
+Dosad su implementirane sljedeće funkcionalnosti: registracija, prijava, pregled i update profila, kreiranje, update i brisanje poslova i djelomični pregled profila. Preostaje implementirati generiranje ugovora o djelu i plaćanje preko PayPal-a.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+**Funkcionalnosti tražitelja posla (Job seeker-a)**
+- Registracija i Prijava
+- Pregled i update profila
+- Pregled poslova
+- Prijava na posao
+- Uplata obavljenog posla
 
-### Compiles and minifies for production
-```
-npm run build
-```
+**Trenutni Napredak**
+Dosad su implementirane sljedeće funkcionalnosti: registracija, prijava, pregled i update profila, kreiranje, pregled poslova, prijava na posao. Preostaje implementirati generiranje ugovora o djelu i plaćanje preko PayPal-a.
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Linkovi
+- link na javni prototip: https://jobify-prototip.netlify.app/
+- link aplikacije: https://jobifynow.netlify.app/
+- video link: https://youtu.be/1PP0l7fkntY
+- link dokumentacije: [Jobify Dokumentacija.pdf](https://github.com/rstarcic/frontend/files/14235314/Jobify.Dokumentacija.pdf)
+- link prezentacije:[Jobify_Prezentacija.pdf](https://github.com/rstarcic/frontend/files/14235315/Jobify_Prezentacija.pdf)
